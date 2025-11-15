@@ -1,0 +1,45 @@
+.contact-page {
+  padding: 2.5rem 0 3rem;
+}
+
+.contact-inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  gap: 2rem;
+}
+
+.contact-info h1 {
+  margin-bottom: 0.75rem;
+}
+
+.contact-details p {
+  margin: 0.2rem 0;
+}
+
+.contact-form {
+  background: #fff;
+  border-radius: var(--gs-radius-lg);
+  padding: 1.5rem;
+  box-shadow: var(--gs-shadow-soft);
+}
+
+.form-row {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 0.9rem;
+}
+
+.form-row label {
+  font-size: 0.85rem;
+  margin-bottom: 0.3rem;
+  font-weight: 600;
+}
+
+.form-row input,
+.form-row textarea {
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  padding: 0.5rem 0.6rem;
+  font-family: inherit;
+  font-size: 0.9rem;
+}

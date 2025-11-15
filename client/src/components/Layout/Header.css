@@ -1,0 +1,70 @@
+.gs-header {
+  background: var(--gs-green-dark);
+  color: white;
+  box-shadow: var(--gs-shadow-soft);
+}
+
+.gs-header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 0;
+}
+
+.gs-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 700;
+  font-size: 1.25rem;
+}
+
+.gs-logo img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.gs-nav {
+  display: flex;
+  gap: 1.5rem;
+  font-weight: 500;
+}
+
+.gs-nav a {
+  color: #f1f1f1;
+  position: relative;
+}
+
+.gs-nav a.active::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 60%;
+  height: 2px;
+  background: var(--gs-yellow);
+  border-radius: 999px;
+}
+
+.gs-header-actions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.gs-btn {
+  padding: 0.4rem 0.9rem;
+  border-radius: 999px;
+  border: none;
+  background: var(--gs-yellow);
+  color: #222;
+  font-weight: 600;
+  font-size: 0.9rem;
+  box-shadow: var(--gs-shadow-soft);
+}
+
+.gs-btn--ghost {
+  background: transparent;
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+}
