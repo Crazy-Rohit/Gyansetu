@@ -1,6 +1,9 @@
+/* src/components/Layout/Header.css */
+
+/* Header layout */
 .gs-header {
   background: var(--gs-green-dark);
-  color: white;
+  color: #fff;
   box-shadow: var(--gs-shadow-soft);
 }
 
@@ -11,60 +14,166 @@
   padding: 0.75rem 0;
 }
 
+/* Logo */
 .gs-logo {
   display: flex;
   align-items: center;
   gap: 0.5rem;
   font-weight: 700;
-  font-size: 1.25rem;
+  font-size: 1.2rem;
+  color: #fff;
+  text-decoration: none;
 }
 
 .gs-logo img {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
+  height: 36px;
+  width: auto;
+  object-fit: contain;
 }
 
+/* Navigation */
 .gs-nav {
   display: flex;
-  gap: 1.5rem;
-  font-weight: 500;
+  align-items: center;
+  gap: 1.25rem;
+  font-size: 0.95rem;
 }
 
 .gs-nav a {
-  color: #f1f1f1;
+  color: rgba(255, 255, 255, 0.85);
+  text-decoration: none;
   position: relative;
+  padding-bottom: 0.15rem;
 }
 
-.gs-nav a.active::after {
-  content: '';
+.gs-nav a::after {
+  content: "";
   position: absolute;
-  bottom: -4px;
   left: 0;
-  width: 60%;
+  bottom: -0.2rem;
+  width: 0;
   height: 2px;
   background: var(--gs-yellow);
-  border-radius: 999px;
+  transition: width 0.2s ease;
 }
 
+.gs-nav a:hover {
+  color: #fff;
+}
+
+.gs-nav a:hover::after,
+.gs-nav a.active::after {
+  width: 100%;
+}
+
+.gs-nav a.active {
+  color: #fff;
+}
+
+/* Header actions */
 .gs-header-actions {
   display: flex;
+  align-items: center;
   gap: 0.75rem;
 }
 
+/* Buttons */
 .gs-btn {
-  padding: 0.4rem 0.9rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.45rem 1rem;
   border-radius: 999px;
   border: none;
   background: var(--gs-yellow);
   color: #222;
   font-weight: 600;
   font-size: 0.9rem;
+  text-decoration: none;
   box-shadow: var(--gs-shadow-soft);
+  cursor: pointer;
+  transition: transform 0.1s ease, box-shadow 0.1s ease,
+    background-color 0.1s ease, color 0.1s ease;
+}
+
+.gs-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--gs-shadow-elevated);
 }
 
 .gs-btn--ghost {
   background: transparent;
   color: #fff;
-  border: 1px solid rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+}
+
+.gs-btn--ghost:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* User menu */
+.gs-user-menu {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.gs-user-avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  border: 2px solid rgba(255, 255, 255, 0.75);
+  background: rgba(0, 0, 0, 0.18);
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  padding: 0;
+  outline: none;
+}
+
+.gs-user-avatar:hover {
+  background: rgba(0, 0, 0, 0.25);
+}
+
+.gs-user-initials {
+  text-transform: uppercase;
+}
+
+/* Dropdown */
+.gs-user-dropdown {
+  position: absolute;
+  right: 0;
+  top: 120%;
+  min-width: 160px;
+  background: #fff;
+  color: #222;
+  border-radius: 0.5rem;
+  box-shadow: var(--gs-shadow-elevated);
+  padding: 0.4rem 0;
+  z-index: 20;
+}
+
+.gs-user-dropdown-name {
+  padding: 0.45rem 0.9rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.gs-user-dropdown-item {
+  width: 100%;
+  padding: 0.4rem 0.9rem;
+  background: transparent;
+  border: none;
+  text-align: left;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.gs-user-dropdown-item:hover {
+  background: rgba(0, 0, 0, 0.04);
 }

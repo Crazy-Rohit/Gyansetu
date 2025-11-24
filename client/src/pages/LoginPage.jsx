@@ -1,3 +1,4 @@
+// src/pages/LoginPage.jsx
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
@@ -15,10 +16,17 @@ export default function LoginPage() {
     setError("");
 
     const result = await login(identifier, password);
+
     if (result.success) {
-      navigate("/"); // later redirect to dashboard
+      const role = result.user?.role;
+
+      if (role === "admin") {
+        navigate("/admin");
+      } else {
+        navigate("/");
+      }
     } else {
-      setError(result.message);
+      setError(result.message || "Login failed. Please try again.");
     }
   };
 
@@ -26,9 +34,9 @@ export default function LoginPage() {
     <section className="login-page">
       <div className="gs-container">
         <div className="auth-card">
-          <h1>Login</h1>
+          <h1 className="auth-title">Welcome back</h1>
           <p className="auth-subtitle">
-            Login to access your Gyan Setu dashboard as a student, teacher, or admin.
+            Login with your registered email or phone number.
           </p>
 
           {error && <p className="auth-error">{error}</p>}
@@ -44,6 +52,7 @@ export default function LoginPage() {
                 required
               />
             </div>
+
             <div className="form-row">
               <label>Password</label>
               <input
@@ -54,6 +63,7 @@ export default function LoginPage() {
                 required
               />
             </div>
+
             <button type="submit" className="gs-btn auth-btn" disabled={loading}>
               {loading ? "Logging in..." : "Login"}
             </button>

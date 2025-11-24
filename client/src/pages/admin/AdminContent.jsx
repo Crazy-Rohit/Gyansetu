@@ -6,6 +6,8 @@ import {
   fetchChaptersBySubject,
   fetchContentByChapter,
   createContentItem,
+  updateContentItem,
+  deleteContentItem,
 } from "../../api/adminApi";
 
 export default function AdminContent() {
@@ -22,8 +24,6 @@ export default function AdminContent() {
     type: "lecture",
     title: "",
     description: "",
-    order: "",
-    thumbnailUrl: "",
     youtubeUrl: "",
     fileUrl: "",
     externalUrl: "",
@@ -31,13 +31,16 @@ export default function AdminContent() {
     pagesCount: "",
     maxMarks: "",
   });
-
+  const [editingId, setEditingId] = useState(null);
   const [error, setError] = useState("");
 
   const loadClasses = async () => {
     try {
       const data = await fetchClasses();
       setClasses(data);
+      if (data.length > 0 && !selectedClass) {
+        setSelectedClass(data[0]._id);
+      }
     } catch (err) {
       console.error(err);
       setError("Failed to load classes.");
@@ -45,10 +48,17 @@ export default function AdminContent() {
   };
 
   const loadSubjects = async (classId) => {
-    if (!classId) return;
+    if (!classId) {
+      setSubjects([]);
+      setSelectedSubject("");
+      return;
+    }
     try {
       const data = await fetchSubjectsByClass(classId);
       setSubjects(data);
+      if (data.length > 0 && !selectedSubject) {
+        setSelectedSubject(data[0]._id);
+      }
     } catch (err) {
       console.error(err);
       setError("Failed to load subjects.");
@@ -56,10 +66,17 @@ export default function AdminContent() {
   };
 
   const loadChapters = async (subjectId) => {
-    if (!subjectId) return;
+    if (!subjectId) {
+      setChapters([]);
+      setSelectedChapter("");
+      return;
+    }
     try {
       const data = await fetchChaptersBySubject(subjectId);
       setChapters(data);
+      if (data.length > 0 && !selectedChapter) {
+        setSelectedChapter(data[0]._id);
+      }
     } catch (err) {
       console.error(err);
       setError("Failed to load chapters.");
@@ -67,13 +84,16 @@ export default function AdminContent() {
   };
 
   const loadContent = async (chapterId) => {
-    if (!chapterId) return;
+    if (!chapterId) {
+      setContentItems([]);
+      return;
+    }
     try {
       const data = await fetchContentByChapter(chapterId);
       setContentItems(data);
     } catch (err) {
       console.error(err);
-      setError("Failed to load content items.");
+      setError("Failed to load content.");
     }
   };
 
@@ -82,41 +102,35 @@ export default function AdminContent() {
   }, []);
 
   useEffect(() => {
-    if (selectedClass) {
-      setSubjects([]);
-      setSelectedSubject("");
-      setChapters([]);
-      setSelectedChapter("");
-      setContentItems([]);
-      loadSubjects(selectedClass);
-    }
+    loadSubjects(selectedClass);
   }, [selectedClass]);
 
   useEffect(() => {
-    if (selectedSubject) {
-      setChapters([]);
-      setSelectedChapter("");
-      setContentItems([]);
-      loadChapters(selectedSubject);
-    }
+    loadChapters(selectedSubject);
   }, [selectedSubject]);
 
   useEffect(() => {
-    if (selectedChapter) {
-      loadContent(selectedChapter);
-    }
+    loadContent(selectedChapter);
+    setEditingId(null);
+    setForm({
+      type: "lecture",
+      title: "",
+      description: "",
+      youtubeUrl: "",
+      fileUrl: "",
+      externalUrl: "",
+      durationMinutes: "",
+      pagesCount: "",
+      maxMarks: "",
+    });
   }, [selectedChapter]);
-
-  const handleChangeForm = (field) => (e) => {
-    setForm({ ...form, [field]: e.target.value });
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
 
-    if (!selectedChapter || !form.type || !form.title) {
-      setError("Chapter, type and title are required.");
+    if (!selectedChapter) {
+      setError("Select a chapter first.");
       return;
     }
 
@@ -125,8 +139,6 @@ export default function AdminContent() {
       type: form.type,
       title: form.title,
       description: form.description,
-      order: form.order ? Number(form.order) : undefined,
-      thumbnailUrl: form.thumbnailUrl,
       youtubeUrl: form.youtubeUrl,
       fileUrl: form.fileUrl,
       externalUrl: form.externalUrl,
@@ -138,13 +150,17 @@ export default function AdminContent() {
     };
 
     try {
-      await createContentItem(payload);
+      if (editingId) {
+        await updateContentItem(editingId, payload);
+      } else {
+        await createContentItem(payload);
+      }
+
+      setEditingId(null);
       setForm({
-        ...form,
+        type: "lecture",
         title: "",
         description: "",
-        order: "",
-        thumbnailUrl: "",
         youtubeUrl: "",
         fileUrl: "",
         externalUrl: "",
@@ -152,79 +168,132 @@ export default function AdminContent() {
         pagesCount: "",
         maxMarks: "",
       });
+
       loadContent(selectedChapter);
     } catch (err) {
       console.error(err);
-      setError("Failed to create content item.");
+      setError("Failed to save content item.");
     }
+  };
+
+  const startEdit = (item) => {
+    setEditingId(item._id);
+    setForm({
+      type: item.type || "lecture",
+      title: item.title || "",
+      description: item.description || "",
+      youtubeUrl: item.youtubeUrl || "",
+      fileUrl: item.fileUrl || "",
+      externalUrl: item.externalUrl || "",
+      durationMinutes: item.durationMinutes || "",
+      pagesCount: item.pagesCount || "",
+      maxMarks: item.maxMarks || "",
+    });
+  };
+
+  const handleDelete = async (id) => {
+    if (!window.confirm("Delete this content item?")) return;
+    try {
+      await deleteContentItem(id);
+      loadContent(selectedChapter);
+    } catch (err) {
+      console.error(err);
+      setError("Failed to delete content item.");
+    }
+  };
+
+  const resetForm = () => {
+    setEditingId(null);
+    setForm({
+      type: "lecture",
+      title: "",
+      description: "",
+      youtubeUrl: "",
+      fileUrl: "",
+      externalUrl: "",
+      durationMinutes: "",
+      pagesCount: "",
+      maxMarks: "",
+    });
   };
 
   return (
     <div>
       <h1 className="admin-page-title">Content</h1>
       <p className="admin-page-subtitle">
-        Add Lectures (YouTube), Notes (PDF), Tests, and Books for each chapter.
+        Attach lectures, notes, tests, and books under each chapter.
       </p>
 
-      <div className="admin-card">
-        <div className="admin-inline">
-          <div className="admin-form-row">
-            <label>Class</label>
-            <select
-              value={selectedClass}
-              onChange={(e) => setSelectedClass(e.target.value)}
-            >
-              <option value="">-- Class --</option>
-              {classes.map((cls) => (
-                <option key={cls._id} value={cls._id}>
-                  {cls.name}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <div className="admin-form-row">
-            <label>Subject</label>
-            <select
-              value={selectedSubject}
-              onChange={(e) => setSelectedSubject(e.target.value)}
-            >
-              <option value="">-- Subject --</option>
-              {subjects.map((s) => (
-                <option key={s._id} value={s._id}>
-                  {s.name}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <div className="admin-form-row">
-            <label>Chapter</label>
-            <select
-              value={selectedChapter}
-              onChange={(e) => setSelectedChapter(e.target.value)}
-            >
-              <option value="">-- Chapter --</option>
-              {chapters.map((ch) => (
-                <option key={ch._id} value={ch._id}>
-                  {ch.chapterNumber ? `${ch.chapterNumber}. ` : ""}
-                  {ch.title}
-                </option>
-              ))}
-            </select>
-          </div>
+      {/* selection */}
+      <div className="admin-card admin-inline">
+        <div className="admin-form-row">
+          <label>Class</label>
+          <select
+            value={selectedClass}
+            onChange={(e) => setSelectedClass(e.target.value)}
+          >
+            {classes.map((c) => (
+              <option key={c._id} value={c._id}>
+                {c.name}
+              </option>
+            ))}
+            {classes.length === 0 && (
+              <option value="">No classes available</option>
+            )}
+          </select>
         </div>
 
+        <div className="admin-form-row">
+          <label>Subject</label>
+          <select
+            value={selectedSubject}
+            onChange={(e) => setSelectedSubject(e.target.value)}
+          >
+            {subjects.map((s) => (
+              <option key={s._id} value={s._id}>
+                {s.name}
+              </option>
+            ))}
+            {subjects.length === 0 && (
+              <option value="">No subjects available</option>
+            )}
+          </select>
+        </div>
+
+        <div className="admin-form-row">
+          <label>Chapter</label>
+          <select
+            value={selectedChapter}
+            onChange={(e) => setSelectedChapter(e.target.value)}
+          >
+            {chapters.map((c) => (
+              <option key={c._id} value={c._id}>
+                {c.chapterNumber
+                  ? `${c.chapterNumber}. ${c.title}`
+                  : c.title}
+              </option>
+            ))}
+            {chapters.length === 0 && (
+              <option value="">No chapters available</option>
+            )}
+          </select>
+        </div>
+      </div>
+
+      {/* form */}
+      <div className="admin-card">
+        <h2>{editingId ? "Edit Content Item" : "Add Content Item"}</h2>
         {error && <p className="admin-error">{error}</p>}
 
-        <h3>Add Content Item</h3>
-        <form onSubmit={handleSubmit}>
+        <form className="admin-form" onSubmit={handleSubmit}>
           <div className="admin-inline">
             <div className="admin-form-row">
               <label>Type</label>
               <select
                 value={form.type}
-                onChange={handleChangeForm("type")}
+                onChange={(e) =>
+                  setForm((f) => ({ ...f, type: e.target.value }))
+                }
               >
                 <option value="lecture">Lecture</option>
                 <option value="note">Note</option>
@@ -232,133 +301,155 @@ export default function AdminContent() {
                 <option value="book">Book</option>
               </select>
             </div>
+
             <div className="admin-form-row">
-              <label>Display Order</label>
+              <label>Title</label>
               <input
-                type="number"
-                value={form.order}
-                onChange={handleChangeForm("order")}
+                type="text"
+                value={form.title}
+                onChange={(e) =>
+                  setForm((f) => ({ ...f, title: e.target.value }))
+                }
+                required
               />
             </div>
-          </div>
-
-          <div className="admin-form-row">
-            <label>Title</label>
-            <input
-              type="text"
-              placeholder="Intro to Number Systems"
-              value={form.title}
-              onChange={handleChangeForm("title")}
-            />
           </div>
 
           <div className="admin-form-row">
             <label>Description</label>
             <textarea
-              rows="2"
               value={form.description}
-              onChange={handleChangeForm("description")}
+              onChange={(e) =>
+                setForm((f) => ({ ...f, description: e.target.value }))
+              }
             />
           </div>
 
-          {/* Link-related fields */}
           <div className="admin-inline">
             <div className="admin-form-row">
-              <label>Thumbnail URL (for lecture cards)</label>
+              <label>YouTube URL</label>
               <input
-                type="text"
-                placeholder="https://..."
-                value={form.thumbnailUrl}
-                onChange={handleChangeForm("thumbnailUrl")}
-              />
-            </div>
-            <div className="admin-form-row">
-              <label>YouTube URL (for lectures)</label>
-              <input
-                type="text"
-                placeholder="https://youtu.be/..."
+                type="url"
                 value={form.youtubeUrl}
-                onChange={handleChangeForm("youtubeUrl")}
+                onChange={(e) =>
+                  setForm((f) => ({ ...f, youtubeUrl: e.target.value }))
+                }
               />
             </div>
-          </div>
-
-          <div className="admin-inline">
             <div className="admin-form-row">
-              <label>File URL (Notes/Tests/Books PDF)</label>
+              <label>File URL (PDF, etc.)</label>
               <input
-                type="text"
-                placeholder="https://.../file.pdf"
+                type="url"
                 value={form.fileUrl}
-                onChange={handleChangeForm("fileUrl")}
+                onChange={(e) =>
+                  setForm((f) => ({ ...f, fileUrl: e.target.value }))
+                }
               />
             </div>
             <div className="admin-form-row">
-              <label>External URL</label>
+              <label>External URL (forms, books, etc.)</label>
               <input
-                type="text"
-                placeholder="External link e.g. Google Form"
+                type="url"
                 value={form.externalUrl}
-                onChange={handleChangeForm("externalUrl")}
+                onChange={(e) =>
+                  setForm((f) => ({ ...f, externalUrl: e.target.value }))
+                }
               />
             </div>
           </div>
 
           <div className="admin-inline">
             <div className="admin-form-row">
-              <label>Duration (min) – Lectures</label>
+              <label>Duration (minutes)</label>
               <input
                 type="number"
                 value={form.durationMinutes}
-                onChange={handleChangeForm("durationMinutes")}
+                onChange={(e) =>
+                  setForm((f) => ({ ...f, durationMinutes: e.target.value }))
+                }
               />
             </div>
             <div className="admin-form-row">
-              <label>Pages – Notes/Books</label>
+              <label>Pages Count</label>
               <input
                 type="number"
                 value={form.pagesCount}
-                onChange={handleChangeForm("pagesCount")}
+                onChange={(e) =>
+                  setForm((f) => ({ ...f, pagesCount: e.target.value }))
+                }
               />
             </div>
             <div className="admin-form-row">
-              <label>Max Marks – Tests</label>
+              <label>Max Marks (for tests)</label>
               <input
                 type="number"
                 value={form.maxMarks}
-                onChange={handleChangeForm("maxMarks")}
+                onChange={(e) =>
+                  setForm((f) => ({ ...f, maxMarks: e.target.value }))
+                }
               />
             </div>
           </div>
 
-          <button type="submit" className="gs-btn">
-            Save Content Item
-          </button>
+          <div className="admin-inline">
+            <button type="submit" className="gs-btn">
+              {editingId ? "Update Content" : "Add Content"}
+            </button>
+            {editingId && (
+              <button
+                type="button"
+                className="gs-btn gs-btn--ghost"
+                onClick={resetForm}
+              >
+                Cancel
+              </button>
+            )}
+          </div>
         </form>
       </div>
 
+      {/* list */}
       <div className="admin-card">
-        <h3>Content Items for Selected Chapter</h3>
+        <h2>Existing Content</h2>
         <div className="admin-list">
           <table>
             <thead>
               <tr>
                 <th>Type</th>
                 <th>Title</th>
-                <th>Order</th>
+                <th>Links</th>
+                <th style={{ width: "120px" }}>Actions</th>
               </tr>
             </thead>
             <tbody>
-              {contentItems.map((c) => (
-                <tr key={c._id}>
-                  <td>{c.type}</td>
-                  <td>{c.title}</td>
-                  <td>{c.order || "-"}</td>
+              {contentItems.map((item) => (
+                <tr key={item._id}>
+                  <td>{item.type}</td>
+                  <td>{item.title}</td>
+                  <td>
+                    {item.youtubeUrl && <span>YT </span>}
+                    {item.fileUrl && <span>File </span>}
+                    {item.externalUrl && <span>Link</span>}
+                  </td>
+                  <td>
+                    <button
+                      className="admin-table-btn"
+                      onClick={() => startEdit(item)}
+                    >
+                      Edit
+                    </button>
+                    <button
+                      className="admin-table-btn admin-table-btn--danger"
+                      onClick={() => handleDelete(item._id)}
+                    >
+                      Delete
+                    </button>
+                  </td>
                 </tr>
               ))}
               {contentItems.length === 0 && (
                 <tr>
-                  <td colSpan="3">No content added yet.</td>
+                  <td colSpan="4">No content added yet.</td>
                 </tr>
               )}
             </tbody>

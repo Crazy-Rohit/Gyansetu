@@ -1,43 +1,58 @@
-import { Link } from 'react-router-dom';
-import '../styles/course.css';
+// client/src/pages/CoursesPage.jsx
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import "../styles/course.css";
+import { fetchPublicClasses } from "../api/courseApi";
 
 export default function CoursesPage() {
+  const [classes, setClasses] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    const load = async () => {
+      try {
+        const data = await fetchPublicClasses();
+        setClasses(data);
+      } catch (err) {
+        console.error(err);
+        setError("Failed to load courses.");
+      } finally {
+        setLoading(false);
+      }
+    };
+    load();
+  }, []);
+
   return (
     <section className="courses-page">
       <div className="gs-container">
         <h1>Courses</h1>
         <p className="courses-subtitle">
-          Currently we offer coaching for <strong>Class 9</strong> and <strong>Class 10</strong> Mathematics (NCERT syllabus).
+          Explore all classes and subjects added by the administrator.
         </p>
 
-        <div className="courses-grid">
-          <div className="course-card">
-            <span className="course-badge">NCERT Maths</span>
-            <h2>Class 9 Mathematics</h2>
-            <p>
-              Chapter-wise explanation, notes, tests, and book references aligned strictly to NCERT.
-            </p>
-            <ul>
-              <li>NCERT Chapter sequence</li>
-              <li>Video lectures for each chapter</li>
-              <li>Notes, tests, and reference books</li>
-            </ul>
-            <Link to="/login" className="gs-btn course-btn">Access as Student</Link>
-          </div>
+        {error && <p className="courses-error">{error}</p>}
+        {loading && <p>Loading courses...</p>}
 
-          <div className="course-card">
-            <span className="course-badge">NCERT Maths</span>
-            <h2>Class 10 Mathematics</h2>
-            <p>
-              Board-focused Maths coaching, with NCERT coverage and exam-oriented practice.
-            </p>
-            <ul>
-              <li>Concept + Board preparation blend</li>
-              <li>Chapter-wise tests and revisions</li>
-              <li>Previous year question practice</li>
-            </ul>
-            <Link to="/login" className="gs-btn course-btn">Access as Student</Link>
-          </div>
+        {!loading && classes.length === 0 && (
+          <p>No courses available yet. Please contact the administrator.</p>
+        )}
+
+        <div className="courses-grid">
+          {classes.map((cls) => (
+            <div className="course-card" key={cls._id}>
+              <span className="course-badge">Class</span>
+              <h2>{cls.name}</h2>
+              {cls.description && <p>{cls.description}</p>}
+              <Link
+                to={`/courses/${cls._id}`}
+                className="gs-btn course-btn"
+              >
+                View Content
+              </Link>
+            </div>
+          ))}
         </div>
       </div>
     </section>

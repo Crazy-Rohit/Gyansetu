@@ -1,3 +1,4 @@
+// src/context/AuthContext.jsx
 import { createContext, useContext, useEffect, useState } from "react";
 import { loginUser, registerUser } from "../api/authApi";
 
@@ -12,10 +13,9 @@ export function AuthProvider({ children }) {
   );
   const [loading, setLoading] = useState(false);
 
+  // Persist token to localStorage
   useEffect(() => {
     if (token) {
-      // In a real app, decode token / fetch profile
-      // For now, user will be set on login/register
       localStorage.setItem("gs_token", token);
     } else {
       localStorage.removeItem("gs_token");
@@ -25,16 +25,20 @@ export function AuthProvider({ children }) {
   const handleLogin = async (identifier, password) => {
     setLoading(true);
     try {
-      const data = await loginUser({ identifier, password });
+      const data = await loginUser({ identifier, password }); // { user, token }
       setUser(data.user);
       setToken(data.token);
-      return { success: true };
+
+      return {
+        success: true,
+        user: data.user,
+      };
     } catch (err) {
       console.error("Login error:", err);
       return {
         success: false,
         message:
-          err.response?.data?.message || "Login failed. Please try again.",
+          err?.response?.data?.message || "Login failed. Please try again.",
       };
     } finally {
       setLoading(false);
@@ -44,16 +48,19 @@ export function AuthProvider({ children }) {
   const handleRegister = async (form) => {
     setLoading(true);
     try {
-      const data = await registerUser(form);
+      const data = await registerUser(form); // { user, token }
       setUser(data.user);
       setToken(data.token);
-      return { success: true };
+      return {
+        success: true,
+        user: data.user,
+      };
     } catch (err) {
       console.error("Register error:", err);
       return {
         success: false,
         message:
-          err.response?.data?.message ||
+          err?.response?.data?.message ||
           "Registration failed. Please check details and try again.",
       };
     } finally {

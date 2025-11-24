@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import '../styles/home.css';
-import banner from '../assets/images/banner.jpg';
+import banner from '../assets/images/banner.png';
 
 export default function HomePage() {
   return (

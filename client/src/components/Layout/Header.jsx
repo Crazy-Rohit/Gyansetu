@@ -1,8 +1,32 @@
-import { Link, NavLink } from 'react-router-dom';
-import logo from '../../assets/images/gyansetu-logo.png';
-import './Header.css';
+// src/components/Layout/Header.jsx
+import { useState } from "react";
+import { Link, NavLink, useNavigate } from "react-router-dom";
+import logo from "../../assets/images/gyansetu-logo.png";
+import { useAuth } from "../../context/AuthContext";
+import "./Header.css";
 
 export default function Header() {
+  const { user, logout } = useAuth();
+  const [menuOpen, setMenuOpen] = useState(false);
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    setMenuOpen(false);
+    logout();
+    navigate("/");
+  };
+
+  const displayName =
+    user?.name || user?.fullName || user?.email || "User";
+
+  const initials = displayName
+    .split(" ")
+    .filter(Boolean)
+    .map((part) => part[0])
+    .join("")
+    .slice(0, 2)
+    .toUpperCase();
+
   return (
     <header className="gs-header">
       <div className="gs-container gs-header-inner">
@@ -12,15 +36,56 @@ export default function Header() {
         </Link>
 
         <nav className="gs-nav">
-          <NavLink to="/" end>Home</NavLink>
+          <NavLink to="/" end>
+            Home
+          </NavLink>
           <NavLink to="/courses">Courses</NavLink>
           <NavLink to="/about">About</NavLink>
           <NavLink to="/contact">Contact</NavLink>
         </nav>
 
         <div className="gs-header-actions">
-          <Link to="/login" className="gs-btn gs-btn--ghost">Login</Link>
-          <Link to="/register" className="gs-btn">Register</Link>
+          {/* When NOT logged in → show Login + Register */}
+          {!user && (
+            <>
+              <Link to="/login" className="gs-btn gs-btn--ghost">
+                Login
+              </Link>
+              <Link to="/register" className="gs-btn">
+                Register
+              </Link>
+            </>
+          )}
+
+          {/* When logged in → show user avatar with dropdown */}
+          {user && (
+            <div
+              className="gs-user-menu"
+              onMouseLeave={() => setMenuOpen(false)}
+            >
+              <button
+                type="button"
+                className="gs-user-avatar"
+                title={displayName} // shows full name on hover
+                onClick={() => setMenuOpen((open) => !open)}
+              >
+                <span className="gs-user-initials">{initials}</span>
+              </button>
+
+              {menuOpen && (
+                <div className="gs-user-dropdown">
+                  <div className="gs-user-dropdown-name">{displayName}</div>
+                  <button
+                    type="button"
+                    className="gs-user-dropdown-item"
+                    onClick={handleLogout}
+                  >
+                    Logout
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </header>
