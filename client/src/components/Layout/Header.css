@@ -177,3 +177,18 @@
 .gs-user-dropdown-item:hover {
   background: rgba(0, 0, 0, 0.04);
 }
+
+.gs-user-dropdown-name {
+  width: 100%;
+  text-align: left;
+  padding: 0.5rem 0.8rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.gs-user-dropdown-name:hover {
+  background: #f3f4f6;
+}

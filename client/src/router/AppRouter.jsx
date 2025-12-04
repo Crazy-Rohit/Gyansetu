@@ -1,9 +1,13 @@
-// src/router/AppRouter.jsx
+// client/src/router/AppRouter.jsx
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+
 import MainLayout from "../components/Layout/MainLayout";
 
 import HomePage from "../pages/HomePage";
 import CoursesPage from "../pages/CoursesPage";
+import CourseSubjectsPage from "../pages/CourseSubjectsPage";
+import CourseChaptersPage from "../pages/CourseChaptersPage";
+import ChapterContentOverviewPage from "../pages/ChapterContentOverviewPage";
 import CourseContentPage from "../pages/CourseContentPage";
 import AboutPage from "../pages/AboutPage";
 import ContactPage from "../pages/ContactPage";
@@ -41,8 +45,40 @@ export default function AppRouter() {
               </ProtectedRoute>
             }
           />
+
+          {/* Class → Subjects */}
           <Route
             path="/courses/:classId"
+            element={
+              <ProtectedRoute>
+                <CourseSubjectsPage />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Subject → Chapters */}
+          <Route
+            path="/courses/:classId/:subjectId"
+            element={
+              <ProtectedRoute>
+                <CourseChaptersPage />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Chapter → Sub-content types (Lectures / Notes / Tests / Books) */}
+          <Route
+            path="/courses/:classId/:subjectId/:chapterId"
+            element={
+              <ProtectedRoute>
+                <ChapterContentOverviewPage />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Specific sub-content type page (only lectures / only notes etc.) */}
+          <Route
+            path="/courses/:classId/:subjectId/:chapterId/:contentType"
             element={
               <ProtectedRoute>
                 <CourseContentPage />
@@ -50,7 +86,7 @@ export default function AppRouter() {
             }
           />
 
-          {/* Admin routes (protected + admin only) */}
+          {/* Admin routes – admin only */}
           <Route
             path="/admin"
             element={
@@ -61,6 +97,7 @@ export default function AppRouter() {
               </AdminRoute>
             }
           />
+
           <Route
             path="/admin/classes"
             element={
@@ -71,6 +108,7 @@ export default function AppRouter() {
               </AdminRoute>
             }
           />
+
           <Route
             path="/admin/subjects"
             element={
@@ -81,6 +119,7 @@ export default function AppRouter() {
               </AdminRoute>
             }
           />
+
           <Route
             path="/admin/chapters"
             element={
@@ -91,6 +130,7 @@ export default function AppRouter() {
               </AdminRoute>
             }
           />
+
           <Route
             path="/admin/content"
             element={
@@ -101,6 +141,7 @@ export default function AppRouter() {
               </AdminRoute>
             }
           />
+
           <Route
             path="/admin/users"
             element={

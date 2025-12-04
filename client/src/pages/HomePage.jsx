@@ -1,8 +1,11 @@
 import { Link } from 'react-router-dom';
 import '../styles/home.css';
 import banner from '../assets/images/banner.png';
+import { useAuth } from "../context/AuthContext";    // ← added
 
 export default function HomePage() {
+  const { user } = useAuth();   // ← added
+
   return (
     <div className="home-page">
       <section className="home-hero">
@@ -16,7 +19,13 @@ export default function HomePage() {
             </p>
             <div className="home-hero-actions">
               <Link to="/courses" className="gs-btn">View Courses</Link>
-              <Link to="/register" className="gs-btn gs-btn--ghost">Join as Student</Link>
+
+              {/* ❌ Hide "Join as Student" if user is logged in */}
+              {!user && (
+                <Link to="/register" className="gs-btn gs-btn--ghost">
+                  Join as Student
+                </Link>
+              )}
             </div>
           </div>
 

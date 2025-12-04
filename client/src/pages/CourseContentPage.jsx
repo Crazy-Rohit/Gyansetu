@@ -1,6 +1,6 @@
 // client/src/pages/CourseContentPage.jsx
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import "../styles/course.css";
 import {
   fetchPublicClasses,
@@ -10,90 +10,46 @@ import {
 } from "../api/courseApi";
 
 export default function CourseContentPage() {
-  const { classId } = useParams();
+  const { classId, subjectId, chapterId, contentType } = useParams();
 
   const [clazz, setClazz] = useState(null);
-  const [subjects, setSubjects] = useState([]);
-  const [selectedSubject, setSelectedSubject] = useState("");
-  const [chapters, setChapters] = useState([]);
-  const [selectedChapter, setSelectedChapter] = useState("");
+  const [subject, setSubject] = useState(null);
+  const [chapter, setChapter] = useState(null);
   const [content, setContent] = useState(null);
 
+  const [loadingMeta, setLoadingMeta] = useState(true);
+  const [loadingContent, setLoadingContent] = useState(true);
   const [error, setError] = useState("");
-  const [loadingSubjects, setLoadingSubjects] = useState(false);
-  const [loadingChapters, setLoadingChapters] = useState(false);
-  const [loadingContent, setLoadingContent] = useState(false);
 
-  // Load the class info + subjects
   useEffect(() => {
-    const load = async () => {
+    const loadMeta = async () => {
       try {
         setError("");
+        setLoadingMeta(true);
+
         const classes = await fetchPublicClasses();
-        const current = classes.find((c) => c._id === classId) || null;
-        setClazz(current || null);
+        const currentClass = classes.find((c) => c._id === classId) || null;
+        setClazz(currentClass);
 
-        setLoadingSubjects(true);
         const subj = await fetchPublicSubjects(classId);
-        setSubjects(subj);
-        if (subj.length > 0) {
-          setSelectedSubject(subj[0]._id);
-        } else {
-          setSelectedSubject("");
-          setChapters([]);
-          setContent(null);
-        }
+        const currentSubject = subj.find((s) => s._id === subjectId) || null;
+        setSubject(currentSubject);
+
+        const chaps = await fetchPublicChapters(subjectId);
+        const currentChapter = chaps.find((c) => c._id === chapterId) || null;
+        setChapter(currentChapter);
       } catch (err) {
         console.error(err);
-        setError("Failed to load course data.");
+        setError("Failed to load chapter information.");
       } finally {
-        setLoadingSubjects(false);
+        setLoadingMeta(false);
       }
     };
 
-    load();
-  }, [classId]);
-
-  // When subject changes, load chapters
-  useEffect(() => {
-    const loadChapters = async () => {
-      if (!selectedSubject) {
-        setChapters([]);
-        setSelectedChapter("");
-        setContent(null);
-        return;
-      }
-      try {
-        setLoadingChapters(true);
-        const chaps = await fetchPublicChapters(selectedSubject);
-        setChapters(chaps);
-        if (chaps.length > 0) {
-          setSelectedChapter(chaps[0]._id);
-        } else {
-          setSelectedChapter("");
-          setContent(null);
-        }
-      } catch (err) {
-        console.error(err);
-        setError("Failed to load chapters.");
-      } finally {
-        setLoadingChapters(false);
-      }
-    };
-
-    loadChapters();
-  }, [selectedSubject]);
-
-  // When chapter changes, load content
-  useEffect(() => {
     const loadContent = async () => {
-      if (!selectedChapter) {
-        setContent(null);
-        return;
-      }
       try {
         setLoadingContent(true);
-        const data = await fetchPublicContent(selectedChapter);
+        const data = await fetchPublicContent(chapterId);
         setContent(data);
       } catch (err) {
         console.error(err);
@@ -103,114 +59,233 @@ export default function CourseContentPage() {
       }
     };
 
+    loadMeta();
     loadContent();
-  }, [selectedChapter]);
+  }, [classId, subjectId, chapterId]);
+
+  const breadcrumbTitle = () => {
+    const parts = [];
+    if (clazz) parts.push(clazz.name);
+    if (subject) parts.push(subject.name);
+    if (chapter) parts.push(chapter.title);
+    const typeLabel = contentTypeLabel(contentType);
+    if (typeLabel) parts.push(typeLabel);
+    return parts.join(" › ");
+  };
+
+  const items = (() => {
+    if (!content) return [];
+    switch (contentType) {
+      case "lectures":
+        return content.lectures || [];
+      case "notes":
+        return content.notes || [];
+      case "tests":
+        return content.tests || [];
+      case "books":
+        return content.books || [];
+      default:
+        return [];
+    }
+  })();
 
   return (
     <section className="courses-page">
       <div className="gs-container">
-        <h1>{clazz ? clazz.name : "Course"}</h1>
-        {clazz?.description && (
-          <p className="courses-subtitle">{clazz.description}</p>
-        )}
+        {/* Breadcrumb */}
+        <nav className="breadcrumb">
+          <Link to="/courses" className="breadcrumb-link">
+            Courses
+          </Link>
+          {clazz && (
+            <>
+              <span className="breadcrumb-sep">›</span>
+              <Link
+                to={`/courses/${classId}`}
+                className="breadcrumb-link breadcrumb-strong"
+              >
+                {clazz.name}
+              </Link>
+            </>
+          )}
+          {subject && (
+            <>
+              <span className="breadcrumb-sep">›</span>
+              <Link
+                to={`/courses/${classId}/${subjectId}`}
+                className="breadcrumb-link breadcrumb-strong"
+              >
+                {subject.name}
+              </Link>
+            </>
+          )}
+          {chapter && (
+            <>
+              <span className="breadcrumb-sep">›</span>
+              <Link
+                to={`/courses/${classId}/${subjectId}/${chapterId}`}
+                className="breadcrumb-link breadcrumb-strong"
+              >
+                {chapter.title}
+              </Link>
+            </>
+          )}
+          <span className="breadcrumb-sep">›</span>
+          <span className="breadcrumb-current">
+            {contentTypeLabel(contentType)}
+          </span>
+        </nav>
+
+        <h1 className="course-title">
+          {breadcrumbTitle()} – {items.length} item
+          {items.length !== 1 ? "s" : ""}
+        </h1>
 
         {error && <p className="courses-error">{error}</p>}
-
-        {/* Subject + chapter selection */}
-        <div className="course-filters">
-          <div>
-            <label>Subject</label>
-            {loadingSubjects ? (
-              <p>Loading subjects...</p>
-            ) : (
-              <select
-                value={selectedSubject}
-                onChange={(e) => setSelectedSubject(e.target.value)}
-              >
-                {subjects.map((s) => (
-                  <option key={s._id} value={s._id}>
-                    {s.name}
-                  </option>
-                ))}
-                {subjects.length === 0 && (
-                  <option value="">No subjects</option>
-                )}
-              </select>
-            )}
-          </div>
-
-          <div>
-            <label>Chapter</label>
-            {loadingChapters ? (
-              <p>Loading chapters...</p>
-            ) : (
-              <select
-                value={selectedChapter}
-                onChange={(e) => setSelectedChapter(e.target.value)}
-              >
-                {chapters.map((c) => (
-                  <option key={c._id} value={c._id}>
-                    {c.chapterNumber
-                      ? `${c.chapterNumber}. ${c.title}`
-                      : c.title}
-                  </option>
-                ))}
-                {chapters.length === 0 && (
-                  <option value="">No chapters</option>
-                )}
-              </select>
-            )}
-          </div>
-        </div>
-
-        {/* Content lists */}
+        {loadingMeta && <p>Loading details...</p>}
         {loadingContent && <p>Loading content...</p>}
 
-        {content && !loadingContent && (
-          <div className="course-content-grid">
-            <ContentGroup title="Lectures" items={content.lectures} />
-            <ContentGroup title="Notes" items={content.notes} />
-            <ContentGroup title="Tests" items={content.tests} />
-            <ContentGroup title="Books" items={content.books} />
-          </div>
+        {!loadingContent && items.length === 0 && !error && (
+          <p className="muted">
+            No {contentTypeLabel(contentType).toLowerCase()} available for this
+            chapter yet.
+          </p>
         )}
 
-        {!loadingContent && !content && (
-          <p>Select a chapter to see available content.</p>
+        {!loadingContent && items.length > 0 && (
+          <ContentCards type={contentType} items={items} />
         )}
       </div>
     </section>
   );
 }
 
-function ContentGroup({ title, items }) {
+function contentTypeLabel(type) {
+  switch (type) {
+    case "lectures":
+      return "Lectures";
+    case "notes":
+      return "Notes";
+    case "tests":
+      return "Tests";
+    case "books":
+      return "Books";
+    default:
+      return "Content";
+  }
+}
+
+/**
+ * Extracts a YouTube video ID from a standard URL.
+ */
+function getYouTubeId(url) {
+  if (!url) return null;
+  try {
+    const u = new URL(url);
+    if (u.hostname === "youtu.be") {
+      return u.pathname.replace("/", "");
+    }
+    if (
+      u.hostname === "www.youtube.com" ||
+      u.hostname === "youtube.com" ||
+      u.hostname === "m.youtube.com"
+    ) {
+      const v = u.searchParams.get("v");
+      if (v) return v;
+      const parts = u.pathname.split("/");
+      return parts.pop() || parts.pop();
+    }
+  } catch (e) {
+    // ignore invalid URL
+  }
+  return null;
+}
+
+function ContentCards({ type, items }) {
+  const isVideoType = type === "lectures";
+
+  // ✅ Sort items so oldest (first added) comes first
+  const sortedItems = [...items].sort((a, b) => {
+    if (a.createdAt && b.createdAt) {
+      return new Date(a.createdAt) - new Date(b.createdAt); // ascending
+    }
+    return 0; // if createdAt not present, keep original order
+  });
+
   return (
-    <div className="course-content-column">
-      <h3>{title}</h3>
-      {(!items || items.length === 0) && <p>No {title.toLowerCase()} yet.</p>}
-      <ul>
-        {items?.map((item) => (
-          <li key={item._id}>
-            <strong>{item.title}</strong>
-            {item.description && <p>{item.description}</p>}
-            {item.youtubeUrl && (
-              <a href={item.youtubeUrl} target="_blank" rel="noreferrer">
-                Watch video
-              </a>
-            )}
-            {item.fileUrl && (
-              <a href={item.fileUrl} target="_blank" rel="noreferrer">
-                Open file
-              </a>
-            )}
-            {item.externalUrl && (
-              <a href={item.externalUrl} target="_blank" rel="noreferrer">
-                Open link
-              </a>
-            )}
-          </li>
-        ))}
-      </ul>
-    </div>
+    <section className="content-group-card content-group-card--full">
+      <div className="courses-grid content-items-grid">
+        {sortedItems.map((item) => {
+          const youtubeId = isVideoType ? getYouTubeId(item.youtubeUrl) : null;
+          const thumbnailUrl = youtubeId
+            ? `https://img.youtube.com/vi/${youtubeId}/hqdefault.jpg`
+            : null;
+
+          return (
+            <article className="course-card content-item-card" key={item._id}>
+              {isVideoType && thumbnailUrl && (
+                <a
+                  href={item.youtubeUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="content-thumb-wrapper"
+                >
+                  <img
+                    src={thumbnailUrl}
+                    alt={item.title}
+                    className="content-thumb-img"
+                    loading="lazy"
+                  />
+                  <span className="content-thumb-badge">Watch</span>
+                </a>
+              )}
+
+              <div className="content-item-body">
+                <h4 className="content-item-title">{item.title}</h4>
+                {item.description && (
+                  <p className="content-item-text">
+                    {item.description.slice(0, 140)}
+                    {item.description.length > 140 ? "..." : ""}
+                  </p>
+                )}
+
+                <div className="content-links">
+                  {item.youtubeUrl && (
+                    <a
+                      href={item.youtubeUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="content-link"
+                    >
+                      Watch Video
+                    </a>
+                  )}
+                  {item.fileUrl && (
+                    <a
+                      href={item.fileUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="content-link"
+                    >
+                      Open File
+                    </a>
+                  )}
+                  {item.externalUrl && (
+                    <a
+                      href={item.externalUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="content-link"
+                    >
+                      Open Link
+                    </a>
+                  )}
+                </div>
+              </div>
+            </article>
+          );
+        })}
+      </div>
+    </section>
   );
 }

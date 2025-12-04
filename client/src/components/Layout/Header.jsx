@@ -16,6 +16,12 @@ export default function Header() {
     navigate("/");
   };
 
+  // 👉 NEW: handle click on name to open profile page
+  const handleProfileClick = () => {
+    setMenuOpen(false);
+    navigate("/profile");
+  };
+
   const displayName =
     user?.name || user?.fullName || user?.email || "User";
 
@@ -74,7 +80,15 @@ export default function Header() {
 
               {menuOpen && (
                 <div className="gs-user-dropdown">
-                  <div className="gs-user-dropdown-name">{displayName}</div>
+                  {/* 👇 CLICKING NAME GOES TO /profile */}
+                  <button
+                    type="button"
+                    className="gs-user-dropdown-name"
+                    onClick={handleProfileClick}
+                  >
+                    {displayName}
+                  </button>
+
                   <button
                     type="button"
                     className="gs-user-dropdown-item"
