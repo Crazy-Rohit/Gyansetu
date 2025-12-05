@@ -1,10 +1,11 @@
-📘 GyanSetu – Smart Learning Platform
+### 📘 GyanSetu – Smart Learning Platform
 
 GyanSetu is a full-stack web application designed to manage classes, subjects, chapters, and learning content for students.
 It includes powerful admin controls, a public course viewer, and a clean UI built with React.
 
-🚀 Tech Stack
-Frontend
+
+## 🚀 Tech Stack
+# Frontend
 
 React.js (Vite/CRA based)
 
@@ -15,6 +16,7 @@ Axios
 Tailwind / Custom CSS (as used in your project)
 
 Context API for state management
+
 
 Backend
 
