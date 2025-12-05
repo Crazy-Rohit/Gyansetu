@@ -57,9 +57,7 @@ GyanSetu/
 │
 
 └── server/                     # Node.js Backend
-
     ├── controllers/
-    
     ├── models/
     
     ├── routes/
