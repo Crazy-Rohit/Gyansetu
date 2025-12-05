@@ -57,13 +57,14 @@ GyanSetu/
 │
 
 └── server/                     # Node.js Backend
+    
     ├── controllers/
+    
     ├── models/
     
     ├── routes/
     
     ├── middleware/
-    
     
     ├── config/
     
@@ -103,7 +104,7 @@ Image/PDF upload support
 
 ## 🛠️ Installation & Setup
 1. Clone the repository
-git clone https://github.com/yourusername/gyansetu.git
+git clone https://github.com/Crazy-Rohit/gyansetu.git
 cd gyansetu
 
 📦 Backend Setup (server/)
@@ -115,9 +116,6 @@ Create .env file
 PORT=5000
 MONGO_URI=your_mongodb_url
 JWT_SECRET=your_secret_key
-CLOUD_NAME=
-CLOUD_API_KEY=
-CLOUD_API_SECRET=
 
 Start backend
 npm start
