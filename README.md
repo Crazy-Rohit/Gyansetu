@@ -1,11 +1,11 @@
-### 📘 GyanSetu – Smart Learning Platform
+# 📘 GyanSetu – Smart Learning Platform
 
 GyanSetu is a full-stack web application designed to manage classes, subjects, chapters, and learning content for students.
 It includes powerful admin controls, a public course viewer, and a clean UI built with React.
 
 
 ## 🚀 Tech Stack
-# Frontend
+### Frontend
 
 React.js (Vite/CRA based)
 
@@ -18,7 +18,7 @@ Tailwind / Custom CSS (as used in your project)
 Context API for state management
 
 
-Backend
+### Backend
 
 Node.js
 
@@ -30,29 +30,50 @@ JWT Authentication
 
 Cloud-based media storage (if used)
 
-📂 Project Structure
+
+## 📂 Project Structure
 GyanSetu/
+
 │
+
 ├── client/                     # React Frontend
+
 │   ├── src/
+
 │   │   ├── api/                # API handlers (Axios)
+
 │   │   ├── components/
+
 │   │   ├── pages/              # Course, Chapter, Admin pages
+
 │   │   ├── context/            # Global Auth Context
+
 │   │   ├── styles/
+
 │   │   └── main.jsx
+
 │   └── index.html
+
 │
+
 └── server/                     # Node.js Backend
+
     ├── controllers/
+    
     ├── models/
+    
     ├── routes/
+    
     ├── middleware/
+    
+    
     ├── config/
+    
     └── server.js
 
-✨ Features
-Public / Student Features
+
+## ✨ Features
+### Public / Student Features
 
 View Classes → Subjects → Chapters → Subcontent
 
@@ -62,7 +83,8 @@ Clean card-based UI for browsing content
 
 Automatic sorting: oldest content shown first
 
-Admin Features
+
+### Admin Features
 
 Add/Edit/Delete:
 
@@ -80,7 +102,8 @@ Dashboard interface to manage learning material
 
 Image/PDF upload support
 
-🛠️ Installation & Setup
+
+## 🛠️ Installation & Setup
 1. Clone the repository
 git clone https://github.com/yourusername/gyansetu.git
 cd gyansetu
