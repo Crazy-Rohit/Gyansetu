@@ -1,0 +1,105 @@
+.gs-footer {
+  background: var(--gs-primary);
+  color: color-mix(in srgb, var(--gs-on-primary) 85%, transparent);
+  margin-top: 3rem;
+  transition: background-color 250ms ease-in-out;
+}
+
+.gs-footer-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr;
+  gap: 2rem;
+  padding: 2.5rem 0 2rem;
+}
+
+.gs-footer-brand p {
+  font-size: 0.88rem;
+  margin: 0.6rem 0 0;
+  max-width: 320px;
+  line-height: 1.5;
+}
+
+.gs-footer-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-weight: 700;
+  font-family: var(--gs-font-heading);
+  font-size: 1.1rem;
+  color: var(--gs-on-primary);
+  text-decoration: none;
+}
+
+.gs-footer-logo__img {
+  height: 32px;
+  width: auto;
+  object-fit: contain;
+  flex-shrink: 0;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.gs-footer-logo:hover .gs-footer-logo__img {
+  transform: rotate(-8deg) scale(1.1);
+}
+
+.gs-footer-col h3 {
+  color: var(--gs-on-primary);
+  font-family: var(--gs-font-heading);
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.9rem;
+}
+
+.gs-footer-col a,
+.gs-footer-col p {
+  display: block;
+  font-size: 0.88rem;
+  color: color-mix(in srgb, var(--gs-on-primary) 75%, transparent);
+  text-decoration: none;
+  margin: 0 0 0.55rem;
+}
+
+.gs-footer-col a {
+  transition: color 0.15s ease, transform 0.15s ease;
+}
+
+.gs-footer-col a:hover {
+  color: var(--gs-secondary-container);
+  transform: translateX(4px);
+}
+
+.gs-footer-icons {
+  display: flex;
+  gap: 0.9rem;
+  margin-top: 0.4rem;
+}
+
+.gs-footer-icons .material-symbols-outlined {
+  cursor: pointer;
+  color: color-mix(in srgb, var(--gs-on-primary) 75%, transparent);
+  transition: color 0.15s ease;
+}
+
+.gs-footer-icons .material-symbols-outlined:hover {
+  color: var(--gs-secondary-container);
+}
+
+.gs-footer-bottom {
+  border-top: 1px solid color-mix(in srgb, var(--gs-on-primary) 12%, transparent);
+  padding: 1rem 0;
+  text-align: center;
+  font-size: 0.85rem;
+}
+
+.gs-footer-bottom p {
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .gs-footer-grid {
+    grid-template-columns: 1fr;
+    gap: 1.75rem;
+    padding: 2rem 0 1.5rem;
+  }
+}

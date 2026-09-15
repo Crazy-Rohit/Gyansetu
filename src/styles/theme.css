@@ -1,0 +1,201 @@
+:root {
+  /* ===== Brand tokens (Material-3-style roles, from the Stitch "Gyan Setu" design kit) ===== */
+  --gs-primary: #0d631b;
+  --gs-on-primary: #ffffff;
+  --gs-primary-container: #2e7d32;
+  --gs-on-primary-container: #cbffc2;
+  --gs-primary-fixed: #a3f69c;
+  --gs-primary-fixed-dim: #88d982;
+  --gs-on-primary-fixed-variant: #005312;
+  --gs-inverse-primary: #88d982;
+
+  --gs-secondary: #825500;
+  --gs-on-secondary: #ffffff;
+  --gs-secondary-container: #ffb231;
+  --gs-on-secondary-container: #6d4700;
+  --gs-secondary-fixed: #ffddb3;
+  --gs-secondary-fixed-dim: #ffb94f;
+  --gs-on-secondary-fixed-variant: #624000;
+
+  --gs-tertiary: #724e17;
+  --gs-on-tertiary: #ffffff;
+  --gs-tertiary-container: #8d662d;
+  --gs-on-tertiary-container: #ffeedc;
+  --gs-tertiary-fixed-dim: #efbe7c;
+
+  --gs-error: #ba1a1a;
+  --gs-on-error: #ffffff;
+  --gs-error-container: #ffdad6;
+  --gs-on-error-container: #93000a;
+
+  --gs-background: #f5fcec;
+  --gs-on-background: #171d14;
+  --gs-surface: #f5fcec;
+  --gs-surface-dim: #d6dccd;
+  --gs-surface-bright: #f5fcec;
+  --gs-surface-container-lowest: #ffffff;
+  --gs-surface-container-low: #f0f6e6;
+  --gs-surface-container: #eaf0e0;
+  --gs-surface-container-high: #e4eadb;
+  --gs-surface-container-highest: #dee5d5;
+  --gs-on-surface: #171d14;
+  --gs-on-surface-variant: #40493d;
+  --gs-outline: #707a6c;
+  --gs-outline-variant: #bfcaba;
+  --gs-inverse-surface: #2c3228;
+  --gs-inverse-on-surface: #edf3e3;
+
+  /* Typography */
+  --gs-font-heading: 'Plus Jakarta Sans', system-ui, sans-serif;
+  --gs-font-body: 'Source Sans 3', system-ui, -apple-system, sans-serif;
+
+  /* Shape */
+  --gs-radius-sm: 8px;
+  --gs-radius-md: 12px;
+  --gs-radius-lg: 16px;
+  --gs-radius-xl: 24px;
+  --gs-radius-full: 9999px;
+
+  /* Elevation (ambient shadows, per DESIGN.md) */
+  --gs-shadow-1: 0 4px 12px rgba(35, 41, 31, 0.05);
+  --gs-shadow-2: 0 8px 20px rgba(35, 41, 31, 0.08);
+  --gs-shadow-3: 0 12px 32px rgba(35, 41, 31, 0.12);
+
+  /* ===== Motion =====
+     One vocabulary for the whole site, so every transition feels like it came
+     from the same hand. `out` decelerates (entrances, reveals), `spring`
+     overshoots slightly (presses, pops), `in-out` is for state swaps. */
+  --gs-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --gs-ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --gs-ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --gs-dur-instant: 90ms;
+  --gs-dur-fast: 160ms;
+  --gs-dur-base: 260ms;
+  --gs-dur-slow: 420ms;
+  --gs-dur-slower: 640ms;
+
+  /* Spacing */
+  --gs-space-xs: 4px;
+  --gs-space-sm: 8px;
+  --gs-space-md: 16px;
+  --gs-space-lg: 24px;
+  --gs-space-xl: 32px;
+}
+
+/* ===== Dark theme =====
+   Derived from the same brand hues (green primary, amber secondary/tertiary)
+   using standard tonal-swap rules: dark-mode primary/secondary/tertiary take
+   the light scheme's "fixed" tones so accents stay bright and legible on
+   near-black surfaces, while containers/surfaces invert to low-lightness
+   versions with a warm-green tint instead of pure black. */
+:root {
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    color-scheme: dark;
+
+    --gs-primary: #88d982;
+    --gs-on-primary: #00390a;
+    --gs-primary-container: #005312;
+    --gs-on-primary-container: #a3f69c;
+    --gs-primary-fixed: #a3f69c;
+    --gs-primary-fixed-dim: #88d982;
+    --gs-on-primary-fixed-variant: #cbffc2;
+    --gs-inverse-primary: #0d631b;
+
+    --gs-secondary: #ffb94f;
+    --gs-on-secondary: #452b00;
+    --gs-secondary-container: #624000;
+    --gs-on-secondary-container: #ffddb3;
+    --gs-secondary-fixed: #ffddb3;
+    --gs-secondary-fixed-dim: #ffb94f;
+    --gs-on-secondary-fixed-variant: #ffddb3;
+
+    --gs-tertiary: #efbe7c;
+    --gs-on-tertiary: #422c00;
+    --gs-tertiary-container: #5a3d0a;
+    --gs-on-tertiary-container: #ffddb3;
+    --gs-tertiary-fixed-dim: #5a3d0a;
+
+    --gs-error: #ffb4ab;
+    --gs-on-error: #690005;
+    --gs-error-container: #93000a;
+    --gs-on-error-container: #ffdad6;
+
+    --gs-background: #12150f;
+    --gs-on-background: #e3e8db;
+    --gs-surface: #12150f;
+    --gs-surface-dim: #0d0f0a;
+    --gs-surface-bright: #383e33;
+    --gs-surface-container-lowest: #0a0c07;
+    --gs-surface-container-low: #1a1e15;
+    --gs-surface-container: #1e2219;
+    --gs-surface-container-high: #292e23;
+    --gs-surface-container-highest: #34392d;
+    --gs-on-surface: #e3e8db;
+    --gs-on-surface-variant: #c0c9b8;
+    --gs-outline: #8a9484;
+    --gs-outline-variant: #40493d;
+    --gs-inverse-surface: #e3e8db;
+    --gs-inverse-on-surface: #2c3228;
+
+    --gs-shadow-1: 0 4px 14px rgba(0, 0, 0, 0.35);
+    --gs-shadow-2: 0 8px 22px rgba(0, 0, 0, 0.45);
+    --gs-shadow-3: 0 14px 36px rgba(0, 0, 0, 0.55);
+  }
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+
+  --gs-primary: #88d982;
+  --gs-on-primary: #00390a;
+  --gs-primary-container: #005312;
+  --gs-on-primary-container: #a3f69c;
+  --gs-primary-fixed: #a3f69c;
+  --gs-primary-fixed-dim: #88d982;
+  --gs-on-primary-fixed-variant: #cbffc2;
+  --gs-inverse-primary: #0d631b;
+
+  --gs-secondary: #ffb94f;
+  --gs-on-secondary: #452b00;
+  --gs-secondary-container: #624000;
+  --gs-on-secondary-container: #ffddb3;
+  --gs-secondary-fixed: #ffddb3;
+  --gs-secondary-fixed-dim: #ffb94f;
+  --gs-on-secondary-fixed-variant: #ffddb3;
+
+  --gs-tertiary: #efbe7c;
+  --gs-on-tertiary: #422c00;
+  --gs-tertiary-container: #5a3d0a;
+  --gs-on-tertiary-container: #ffddb3;
+  --gs-tertiary-fixed-dim: #5a3d0a;
+
+  --gs-error: #ffb4ab;
+  --gs-on-error: #690005;
+  --gs-error-container: #93000a;
+  --gs-on-error-container: #ffdad6;
+
+  --gs-background: #12150f;
+  --gs-on-background: #e3e8db;
+  --gs-surface: #12150f;
+  --gs-surface-dim: #0d0f0a;
+  --gs-surface-bright: #383e33;
+  --gs-surface-container-lowest: #0a0c07;
+  --gs-surface-container-low: #1a1e15;
+  --gs-surface-container: #1e2219;
+  --gs-surface-container-high: #292e23;
+  --gs-surface-container-highest: #34392d;
+  --gs-on-surface: #e3e8db;
+  --gs-on-surface-variant: #c0c9b8;
+  --gs-outline: #8a9484;
+  --gs-outline-variant: #40493d;
+  --gs-inverse-surface: #e3e8db;
+  --gs-inverse-on-surface: #2c3228;
+
+  --gs-shadow-1: 0 4px 14px rgba(0, 0, 0, 0.35);
+  --gs-shadow-2: 0 8px 22px rgba(0, 0, 0, 0.45);
+  --gs-shadow-3: 0 14px 36px rgba(0, 0, 0, 0.55);
+}

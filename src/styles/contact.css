@@ -1,0 +1,88 @@
+.contact-page {
+  padding: 2.5rem 0 3rem;
+  background: var(--gs-background);
+  min-height: 100vh;
+}
+
+.contact-inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  gap: 2rem;
+}
+
+.contact-info h1 {
+  margin-bottom: 0.75rem;
+  font-family: var(--gs-font-heading);
+}
+
+.contact-info p {
+  color: var(--gs-on-surface-variant);
+}
+
+.contact-details p {
+  margin: 0.2rem 0;
+  color: var(--gs-on-surface);
+}
+
+.contact-form {
+  position: relative;
+  background: var(--gs-surface-container-lowest);
+  border: 1px solid var(--gs-outline-variant);
+  border-radius: var(--gs-radius-lg);
+  padding: 1.5rem;
+  box-shadow: var(--gs-shadow-1);
+  overflow: hidden;
+}
+
+.contact-form::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--gs-primary);
+}
+
+.form-row {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 0.9rem;
+}
+
+.form-row label {
+  font-size: 0.85rem;
+  margin-bottom: 0.3rem;
+  font-weight: 600;
+  color: var(--gs-on-surface);
+}
+
+.form-row input,
+.form-row textarea {
+  border-radius: var(--gs-radius-sm);
+  border: 1px solid var(--gs-outline-variant);
+  background: var(--gs-surface-container-lowest);
+  color: var(--gs-on-surface);
+  padding: 0.55rem 0.7rem;
+  font-family: inherit;
+  font-size: 0.9rem;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
+}
+
+.form-row input:focus,
+.form-row textarea:focus {
+  outline: none;
+  border-color: var(--gs-primary-container);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--gs-primary-container) 18%, transparent);
+  transform: translateY(-2px);
+}
+
+.contact-form .gs-btn {
+  margin-top: 0.4rem;
+}
+
+@media (max-width: 768px) {
+  .contact-inner {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,223 @@
+@import './theme.css';
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  /* Keeps in-page anchors clear of the sticky header. */
+  scroll-padding-top: 5rem;
+  /* A vertical scrollbar appearing between routes shifts the whole layout
+     sideways; reserving the gutter keeps page changes rock steady. It has to
+     live on the scrolling element, which is <html>. */
+  scrollbar-gutter: stable;
+}
+
+body {
+  margin: 0;
+  font-family: var(--gs-font-body);
+  color: var(--gs-on-surface-variant);
+  background-color: var(--gs-background);
+  transition: background-color var(--gs-dur-base) var(--gs-ease-in-out),
+    color var(--gs-dur-base) var(--gs-ease-in-out);
+}
+
+*:focus-visible {
+  outline: 2px solid var(--gs-primary);
+  outline-offset: 2px;
+}
+
+h1, h2, h3, h4, h5 {
+  font-family: var(--gs-font-heading);
+  font-weight: 700;
+  color: var(--gs-on-surface);
+  margin: 0;
+}
+
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 500, 'GRAD' 0, 'opsz' 24;
+  line-height: 1;
+  vertical-align: middle;
+  user-select: none;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button {
+  font-family: inherit;
+}
+
+img {
+  /* An image without intrinsic space collapses and then pushes the layout
+     when it decodes — this is the single biggest source of load-time jump. */
+  max-width: 100%;
+}
+
+.gs-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+/* ============================================================
+   Scroll reveal — driven by src/components/Reveal.jsx
+   Each direct child pops in with a staggered delay. Only opacity
+   and transform are animated, so it stays on the compositor and
+   never triggers layout.
+   ============================================================ */
+@keyframes gs-stagger-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 26px, 0) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.reveal > * {
+  opacity: 0;
+}
+
+.reveal--visible > * {
+  animation: gs-stagger-in var(--gs-dur-slower) var(--gs-ease-out) both;
+}
+
+/* A 55ms cascade: quick enough to feel like one gesture, slow enough to read
+   as a sequence. --gs-reveal-delay lets a section start its cascade after an
+   earlier one (set by Reveal.jsx's `delay` prop). */
+.reveal--visible > *:nth-child(1) { animation-delay: calc(var(--gs-reveal-delay, 0ms) + 0ms); }
+.reveal--visible > *:nth-child(2) { animation-delay: calc(var(--gs-reveal-delay, 0ms) + 55ms); }
+.reveal--visible > *:nth-child(3) { animation-delay: calc(var(--gs-reveal-delay, 0ms) + 110ms); }
+.reveal--visible > *:nth-child(4) { animation-delay: calc(var(--gs-reveal-delay, 0ms) + 165ms); }
+.reveal--visible > *:nth-child(5) { animation-delay: calc(var(--gs-reveal-delay, 0ms) + 220ms); }
+.reveal--visible > *:nth-child(6) { animation-delay: calc(var(--gs-reveal-delay, 0ms) + 275ms); }
+.reveal--visible > *:nth-child(7) { animation-delay: calc(var(--gs-reveal-delay, 0ms) + 330ms); }
+.reveal--visible > *:nth-child(8) { animation-delay: calc(var(--gs-reveal-delay, 0ms) + 385ms); }
+.reveal--visible > *:nth-child(n + 9) { animation-delay: calc(var(--gs-reveal-delay, 0ms) + 440ms); }
+
+/* ============================================================
+   Page transition — driven by MainLayout.jsx
+   ============================================================ */
+@keyframes gs-page-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 14px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.gs-page-transition {
+  animation: gs-page-in var(--gs-dur-slow) var(--gs-ease-out) both;
+}
+
+/* Route chunks load lazily; this is what shows for the moment in between. */
+.gs-route-fallback {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  min-height: 60vh;
+  color: var(--gs-on-surface-variant);
+  font-weight: 600;
+}
+
+.gs-route-fallback__spinner {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--gs-radius-full);
+  border: 3px solid var(--gs-outline-variant);
+  border-top-color: var(--gs-primary);
+  animation: gs-spin 0.8s linear infinite;
+}
+
+@keyframes gs-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ============================================================
+   Shared motion utilities
+   ============================================================ */
+
+/* Card / tile hover lift. Transform-and-shadow only — never width, height,
+   margin or padding, which would reflow the grid on hover. */
+.gs-lift {
+  transition: transform var(--gs-dur-base) var(--gs-ease-out),
+    box-shadow var(--gs-dur-base) var(--gs-ease-out);
+}
+
+.gs-lift:hover {
+  transform: translate3d(0, -5px, 0);
+  box-shadow: var(--gs-shadow-3);
+}
+
+.gs-lift:active {
+  transform: translate3d(0, -1px, 0) scale(0.995);
+  transition-duration: var(--gs-dur-instant);
+}
+
+/* Soft attention pulse, for badges and the chat launcher. */
+@keyframes gs-pulse-ring {
+  0% { transform: scale(0.9); opacity: 0.55; }
+  70% { transform: scale(1.5); opacity: 0; }
+  100% { transform: scale(1.5); opacity: 0; }
+}
+
+/* Shimmer for skeleton placeholders. */
+@keyframes gs-shimmer {
+  from { background-position: -180% 0; }
+  to { background-position: 180% 0; }
+}
+
+.gs-skeleton {
+  border-radius: var(--gs-radius-md);
+  background-image: linear-gradient(
+    100deg,
+    var(--gs-surface-container) 30%,
+    var(--gs-surface-container-high) 50%,
+    var(--gs-surface-container) 70%
+  );
+  background-size: 200% 100%;
+  animation: gs-shimmer 1.4s var(--gs-ease-in-out) infinite;
+}
+
+/* ============================================================
+   Reduced motion — one place, applied to everything
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  /* Blanket stop, so any animation added later is covered by default rather
+     than needing to remember its own opt-out. */
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  /* The reveal utility hides its children until the animation runs them in,
+     so it needs an explicit escape or the page would stay blank. */
+  .reveal > *,
+  .reveal--visible > * {
+    opacity: 1;
+    transform: none;
+    animation: none !important;
+  }
+}

@@ -1,0 +1,69 @@
+.badge3d-wrap {
+  position: relative;
+  margin: 0 auto;
+  /* The inline width/height carry the render resolution; these keep the badge
+     square and inside its container on narrow screens. */
+  max-width: 100%;
+  height: auto !important;
+  aspect-ratio: 1;
+  animation: badge3d-in var(--gs-dur-slower, 640ms) var(--gs-ease-out, ease) both;
+}
+
+@keyframes badge3d-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.badge3d-canvas-host {
+  width: 100%;
+  height: 100%;
+  cursor: grab;
+  /* Let the badge take horizontal drags without the page scrolling with it. */
+  touch-action: pan-y;
+}
+
+.badge3d-canvas-host.is-grabbing {
+  cursor: grabbing;
+}
+
+.badge3d-canvas-host canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.badge3d-loading {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--gs-on-surface-variant);
+}
+
+.badge3d-loading__ring {
+  width: 30px;
+  height: 30px;
+  border-radius: var(--gs-radius-full);
+  border: 3px solid var(--gs-outline-variant);
+  border-top-color: var(--gs-primary);
+  animation: badge3d-spin 0.75s linear infinite;
+}
+
+@keyframes badge3d-spin {
+  to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .badge3d-wrap {
+    animation: none;
+  }
+
+  .badge3d-loading__ring {
+    animation-duration: 2s;
+  }
+}

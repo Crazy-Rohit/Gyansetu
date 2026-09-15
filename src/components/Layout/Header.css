@@ -1,0 +1,274 @@
+/* src/components/Layout/Header.css */
+
+.gs-header {
+  background: var(--gs-primary);
+  color: var(--gs-on-primary);
+  box-shadow: var(--gs-shadow-1);
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  transition: background-color var(--gs-dur-base) var(--gs-ease-in-out),
+    box-shadow var(--gs-dur-slow) var(--gs-ease-out),
+    padding var(--gs-dur-slow) var(--gs-ease-out);
+}
+
+/* Once the page scrolls, the bar tightens up and lifts off the content. */
+.gs-header--scrolled {
+  box-shadow: var(--gs-shadow-3);
+}
+
+.gs-header-inner {
+  transition: padding var(--gs-dur-slow) var(--gs-ease-out);
+}
+
+.gs-header--scrolled .gs-header-inner {
+  padding-top: 0.45rem;
+  padding-bottom: 0.45rem;
+}
+
+.gs-logo__img,
+.gs-logo span {
+  transition: transform var(--gs-dur-slow) var(--gs-ease-out);
+}
+
+.gs-header--scrolled .gs-logo__img {
+  transform: scale(0.9);
+}
+
+.gs-logo:hover .gs-logo__img {
+  transform: rotate(-6deg) scale(1.08);
+}
+
+.gs-header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 0;
+}
+
+/* Logo */
+.gs-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-weight: 700;
+  font-family: var(--gs-font-heading);
+  font-size: 1.2rem;
+  color: var(--gs-on-primary);
+  text-decoration: none;
+}
+
+.gs-logo__img {
+  height: 38px;
+  width: auto;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+/* Navigation (desktop) */
+.gs-nav {
+  display: flex;
+  align-items: center;
+  gap: 1.4rem;
+  font-size: 0.95rem;
+  font-family: var(--gs-font-body);
+  font-weight: 600;
+}
+
+.gs-nav a {
+  color: color-mix(in srgb, var(--gs-on-primary) 82%, transparent);
+  text-decoration: none;
+  position: relative;
+  padding-bottom: 0.2rem;
+  transition: color 0.15s ease;
+}
+
+.gs-nav a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -0.25rem;
+  width: 100%;
+  height: 2px;
+  background: var(--gs-secondary-container);
+  border-radius: var(--gs-radius-full);
+  /* Scaling a full-width bar runs on the compositor; animating `width` from 0
+     relayouts the link on every frame. */
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform var(--gs-dur-base) var(--gs-ease-out);
+}
+
+.gs-nav a:hover {
+  color: var(--gs-on-primary);
+}
+
+.gs-nav a:hover::after,
+.gs-nav a.active::after {
+  transform: scaleX(1);
+}
+
+.gs-nav a.active {
+  color: var(--gs-secondary-container);
+}
+
+.gs-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.gs-theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border: none;
+  border-radius: var(--gs-radius-full);
+  background: transparent;
+  color: var(--gs-on-primary);
+  cursor: pointer;
+  transition: background-color 0.15s ease, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.gs-theme-toggle:hover {
+  background: color-mix(in srgb, var(--gs-on-primary) 12%, transparent);
+  transform: rotate(20deg);
+}
+
+/* Buttons (still used by Home/Contact CTAs) */
+.gs-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  padding: 0.55rem 1.2rem;
+  border-radius: var(--gs-radius-full);
+  border: none;
+  background: var(--gs-secondary-container);
+  color: var(--gs-on-secondary-container);
+  font-weight: 600;
+  font-family: var(--gs-font-body);
+  font-size: 0.9rem;
+  text-decoration: none;
+  box-shadow: var(--gs-shadow-1);
+  cursor: pointer;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 0.2s ease, background-color 0.15s ease, color 0.15s ease;
+}
+
+.gs-btn:hover:not(:disabled) {
+  transform: translateY(-3px) scale(1.04);
+  box-shadow: var(--gs-shadow-2);
+}
+
+.gs-btn:active:not(:disabled) {
+  transform: translateY(0) scale(0.96);
+  transition-duration: var(--gs-dur-instant);
+  box-shadow: var(--gs-shadow-1);
+}
+
+/* A disabled button must stop reacting entirely — a control that lifts on
+   hover but does nothing on click reads as broken. */
+.gs-btn:disabled {
+  opacity: 0.55;
+  cursor: default;
+  box-shadow: none;
+  transform: none;
+}
+
+.gs-btn--ghost {
+  background: var(--gs-surface-container-lowest);
+  color: var(--gs-primary);
+  border: 1px solid var(--gs-outline-variant);
+  box-shadow: none;
+}
+
+.gs-btn--ghost:hover:not(:disabled) {
+  background: var(--gs-surface-container-high);
+  box-shadow: none;
+}
+
+.gs-btn--light {
+  background: var(--gs-surface-container-lowest);
+  color: var(--gs-primary);
+}
+
+.gs-btn--light:hover:not(:disabled) {
+  background: var(--gs-surface-container-high);
+}
+
+.gs-btn .material-symbols-outlined {
+  font-size: 18px;
+}
+
+/* Mobile nav toggle (hamburger) */
+.gs-nav-toggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--gs-on-primary);
+  cursor: pointer;
+}
+
+.gs-nav-mobile {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .gs-nav {
+    display: none;
+  }
+
+  .gs-nav-toggle {
+    display: flex;
+  }
+
+  .gs-nav-mobile {
+    display: flex;
+    flex-direction: column;
+    background: var(--gs-primary);
+    border-top: 1px solid color-mix(in srgb, var(--gs-on-primary) 15%, transparent);
+    padding: 0.5rem 1.5rem 1rem;
+    transform-origin: top;
+    animation: gs-nav-mobile-in 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  @keyframes gs-nav-mobile-in {
+    from { opacity: 0; transform: scaleY(0.85) translateY(-8px); }
+    to { opacity: 1; transform: none; }
+  }
+
+  .gs-nav-mobile a {
+    color: color-mix(in srgb, var(--gs-on-primary) 90%, transparent);
+    text-decoration: none;
+    padding: 0.6rem 0;
+    font-size: 1rem;
+    font-family: var(--gs-font-body);
+    font-weight: 600;
+    border-bottom: 1px solid color-mix(in srgb, var(--gs-on-primary) 8%, transparent);
+    transition: color var(--gs-dur-fast) var(--gs-ease-out),
+      transform var(--gs-dur-base) var(--gs-ease-out);
+  }
+
+  .gs-nav-mobile a:hover {
+    color: var(--gs-secondary-container);
+    transform: translateX(0.4rem);
+  }
+
+  .gs-nav-mobile a.active {
+    color: var(--gs-secondary-container);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .gs-nav-mobile {
+      animation: none;
+    }
+  }
+}

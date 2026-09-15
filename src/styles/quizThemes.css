@@ -1,0 +1,601 @@
+/* src/styles/quizThemes.css
+ *
+ * Per-chapter accent variants for the quiz UI. Each .quiz-theme--N class
+ * locally overrides the same brand tokens quiz.css already reads (--gs-primary,
+ * --gs-secondary-container, etc.), scoped to whatever element carries the class —
+ * so it recolors that chapter's quiz page without touching the header, footer, or
+ * any other page, which never sit inside this wrapper.
+ *
+ * Every theme keeps the exact role structure of the real brand palette (a dark
+ * saturated "primary", a bright warm "secondary container", a muted "tertiary
+ * container") and the same per-role lightness bands, so every variant still reads
+ * as Gyan Setu — just shifted to a different hue family. Generated from hand-picked
+ * (hue, saturation) pairs per theme (see gen_quiz_themes.py), not a blind hue-
+ * rotation — a few hue families (cyan/blue/magenta) go neon at full saturation, so
+ * saturation is capped per family to stay in the same tasteful register as the
+ * original green+amber. Contrast-checked against the ~3.6:1 floor the original
+ * brand pair itself sits at (these tokens carry bold/icon-weight text, not small
+ * body copy, so that — not 4.5:1 — is the right bar).
+ *
+ * Slot 0 ("Meadow") is the site's real, already-shipped palette, byte for byte —
+ * whichever chapter keeps slot 0 looks exactly as it always has.
+ *
+ * assignQuizTheme() in src/utils/quizTheme.js is what actually applies these.
+ */
+
+/* 0: Meadow */
+.quiz-theme--0 {
+  --gs-primary: #0d631b;
+  --gs-on-primary: #ffffff;
+  --gs-primary-container: #2e7d32;
+  --gs-on-primary-container: #cbffc2;
+  --gs-secondary: #825500;
+  --gs-on-secondary: #ffffff;
+  --gs-secondary-container: #ffb231;
+  --gs-on-secondary-container: #6d4700;
+  --gs-secondary-fixed: #ffddb3;
+  --gs-secondary-fixed-dim: #ffb94f;
+  --gs-tertiary-container: #8d662d;
+  --gs-on-tertiary-container: #ffeedc;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .quiz-theme--0 {
+    --gs-primary: #88d982;
+    --gs-on-primary: #00390a;
+    --gs-primary-container: #005312;
+    --gs-on-primary-container: #a3f69c;
+    --gs-secondary: #ffb94f;
+    --gs-on-secondary: #452b00;
+    --gs-secondary-container: #624000;
+    --gs-on-secondary-container: #ffddb3;
+    --gs-secondary-fixed: #ffddb3;
+    --gs-secondary-fixed-dim: #ffb94f;
+    --gs-tertiary-container: #5a3d0a;
+    --gs-on-tertiary-container: #ffddb3;
+  }
+}
+
+:root[data-theme="dark"] .quiz-theme--0 {
+  --gs-primary: #88d982;
+  --gs-on-primary: #00390a;
+  --gs-primary-container: #005312;
+  --gs-on-primary-container: #a3f69c;
+  --gs-secondary: #ffb94f;
+  --gs-on-secondary: #452b00;
+  --gs-secondary-container: #624000;
+  --gs-on-secondary-container: #ffddb3;
+  --gs-secondary-fixed: #ffddb3;
+  --gs-secondary-fixed-dim: #ffb94f;
+  --gs-tertiary-container: #5a3d0a;
+  --gs-on-tertiary-container: #ffddb3;
+}
+
+/* 1: Ocean Teal */
+.quiz-theme--1 {
+  --gs-primary: #155b56;
+  --gs-on-primary: #ffffff;
+  --gs-primary-container: #26847e;
+  --gs-on-primary-container: #c6faf7;
+  --gs-secondary: #7d3d05;
+  --gs-on-secondary: #ffffff;
+  --gs-secondary-container: #f79239;
+  --gs-on-secondary-container: #693304;
+  --gs-secondary-fixed: #fcd7b6;
+  --gs-secondary-fixed-dim: #f8a256;
+  --gs-tertiary-container: #905a2a;
+  --gs-on-tertiary-container: #fcecde;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .quiz-theme--1 {
+    --gs-primary: #7cded8;
+    --gs-on-primary: #0b2e2c;
+    --gs-primary-container: #104340;
+    --gs-on-primary-container: #a7eae6;
+    --gs-secondary: #f8a256;
+    --gs-on-secondary: #422003;
+    --gs-secondary-container: #5e2e04;
+    --gs-on-secondary-container: #fcd7b6;
+    --gs-secondary-fixed: #fcd7b6;
+    --gs-secondary-fixed-dim: #f8a256;
+    --gs-tertiary-container: #503014;
+    --gs-on-tertiary-container: #fcd7b6;
+  }
+}
+
+:root[data-theme="dark"] .quiz-theme--1 {
+  --gs-primary: #7cded8;
+  --gs-on-primary: #0b2e2c;
+  --gs-primary-container: #104340;
+  --gs-on-primary-container: #a7eae6;
+  --gs-secondary: #f8a256;
+  --gs-on-secondary: #422003;
+  --gs-secondary-container: #5e2e04;
+  --gs-on-secondary-container: #fcd7b6;
+  --gs-secondary-fixed: #fcd7b6;
+  --gs-secondary-fixed-dim: #f8a256;
+  --gs-tertiary-container: #503014;
+  --gs-on-tertiary-container: #fcd7b6;
+}
+
+/* 2: Sky Cobalt */
+.quiz-theme--2 {
+  --gs-primary: #183e59;
+  --gs-on-primary: #ffffff;
+  --gs-primary-container: #265d84;
+  --gs-on-primary-container: #c6e5fa;
+  --gs-secondary: #7f4503;
+  --gs-on-secondary: #ffffff;
+  --gs-secondary-container: #fa9f36;
+  --gs-on-secondary-container: #6a3a03;
+  --gs-secondary-fixed: #fddbb5;
+  --gs-secondary-fixed-dim: #fbad53;
+  --gs-tertiary-container: #90602a;
+  --gs-on-tertiary-container: #fceede;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .quiz-theme--2 {
+    --gs-primary: #7eb5dd;
+    --gs-on-primary: #0c1f2d;
+    --gs-primary-container: #112e42;
+    --gs-on-primary-container: #aacee8;
+    --gs-secondary: #fbad53;
+    --gs-on-secondary: #432502;
+    --gs-secondary-container: #5f3402;
+    --gs-on-secondary-container: #fddbb5;
+    --gs-secondary-fixed: #fddbb5;
+    --gs-secondary-fixed-dim: #fbad53;
+    --gs-tertiary-container: #503414;
+    --gs-on-tertiary-container: #fddbb5;
+  }
+}
+
+:root[data-theme="dark"] .quiz-theme--2 {
+  --gs-primary: #7eb5dd;
+  --gs-on-primary: #0c1f2d;
+  --gs-primary-container: #112e42;
+  --gs-on-primary-container: #aacee8;
+  --gs-secondary: #fbad53;
+  --gs-on-secondary: #432502;
+  --gs-secondary-container: #5f3402;
+  --gs-on-secondary-container: #fddbb5;
+  --gs-secondary-fixed: #fddbb5;
+  --gs-secondary-fixed-dim: #fbad53;
+  --gs-tertiary-container: #503414;
+  --gs-on-tertiary-container: #fddbb5;
+}
+
+/* 3: Berry Plum */
+.quiz-theme--3 {
+  --gs-primary: #50213a;
+  --gs-on-primary: #ffffff;
+  --gs-primary-container: #793258;
+  --gs-on-primary-container: #fac6e2;
+  --gs-secondary: #7c4507;
+  --gs-on-secondary: #ffffff;
+  --gs-secondary-container: #f59e3b;
+  --gs-on-secondary-container: #683a05;
+  --gs-secondary-fixed: #fbdbb7;
+  --gs-secondary-fixed-dim: #f6ac58;
+  --gs-tertiary-container: #90602a;
+  --gs-on-tertiary-container: #fceede;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .quiz-theme--3 {
+    --gs-primary: #d08bb0;
+    --gs-on-primary: #29111d;
+    --gs-primary-container: #3b182b;
+    --gs-on-primary-container: #e0b2ca;
+    --gs-secondary: #f6ac58;
+    --gs-on-secondary: #412403;
+    --gs-secondary-container: #5d3405;
+    --gs-on-secondary-container: #fbdbb7;
+    --gs-secondary-fixed: #fbdbb7;
+    --gs-secondary-fixed-dim: #f6ac58;
+    --gs-tertiary-container: #503414;
+    --gs-on-tertiary-container: #fbdbb7;
+  }
+}
+
+:root[data-theme="dark"] .quiz-theme--3 {
+  --gs-primary: #d08bb0;
+  --gs-on-primary: #29111d;
+  --gs-primary-container: #3b182b;
+  --gs-on-primary-container: #e0b2ca;
+  --gs-secondary: #f6ac58;
+  --gs-on-secondary: #412403;
+  --gs-secondary-container: #5d3405;
+  --gs-on-secondary-container: #fbdbb7;
+  --gs-secondary-fixed: #fbdbb7;
+  --gs-secondary-fixed-dim: #f6ac58;
+  --gs-tertiary-container: #503414;
+  --gs-on-tertiary-container: #fbdbb7;
+}
+
+/* 4: Slate Indigo */
+.quiz-theme--4 {
+  --gs-primary: #1c2154;
+  --gs-on-primary: #ffffff;
+  --gs-primary-container: #2b3280;
+  --gs-on-primary-container: #c6cbfa;
+  --gs-secondary: #7f5103;
+  --gs-on-secondary: #ffffff;
+  --gs-secondary-container: #fab236;
+  --gs-on-secondary-container: #6a4403;
+  --gs-secondary-fixed: #fde3b5;
+  --gs-secondary-fixed-dim: #fbbd53;
+  --gs-tertiary-container: #906b2a;
+  --gs-on-tertiary-container: #fcf1de;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .quiz-theme--4 {
+    --gs-primary: #858bd6;
+    --gs-on-primary: #0e112b;
+    --gs-primary-container: #15183e;
+    --gs-on-primary-container: #aeb2e4;
+    --gs-secondary: #fbbd53;
+    --gs-on-secondary: #432b02;
+    --gs-secondary-container: #5f3d02;
+    --gs-on-secondary-container: #fde3b5;
+    --gs-secondary-fixed: #fde3b5;
+    --gs-secondary-fixed-dim: #fbbd53;
+    --gs-tertiary-container: #503a14;
+    --gs-on-tertiary-container: #fde3b5;
+  }
+}
+
+:root[data-theme="dark"] .quiz-theme--4 {
+  --gs-primary: #858bd6;
+  --gs-on-primary: #0e112b;
+  --gs-primary-container: #15183e;
+  --gs-on-primary-container: #aeb2e4;
+  --gs-secondary: #fbbd53;
+  --gs-on-secondary: #432b02;
+  --gs-secondary-container: #5f3d02;
+  --gs-on-secondary-container: #fde3b5;
+  --gs-secondary-fixed: #fde3b5;
+  --gs-secondary-fixed-dim: #fbbd53;
+  --gs-tertiary-container: #503a14;
+  --gs-on-tertiary-container: #fde3b5;
+}
+
+/* 5: Terracotta */
+.quiz-theme--5 {
+  --gs-primary: #5e2412;
+  --gs-on-primary: #ffffff;
+  --gs-primary-container: #843c26;
+  --gs-on-primary-container: #fad3c6;
+  --gs-secondary: #216259;
+  --gs-on-secondary: #ffffff;
+  --gs-secondary-container: #64cbbe;
+  --gs-on-secondary-container: #1b524b;
+  --gs-secondary-fixed: #c6ece7;
+  --gs-secondary-fixed-dim: #7bd3c7;
+  --gs-tertiary-container: #2f8c7f;
+  --gs-on-tertiary-container: #defcf8;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .quiz-theme--5 {
+    --gs-primary: #de937c;
+    --gs-on-primary: #301209;
+    --gs-primary-container: #461a0d;
+    --gs-on-primary-container: #eeb5a4;
+    --gs-secondary: #7bd3c7;
+    --gs-on-secondary: #11342f;
+    --gs-secondary-container: #184943;
+    --gs-on-secondary-container: #c6ece7;
+    --gs-secondary-fixed: #c6ece7;
+    --gs-secondary-fixed-dim: #7bd3c7;
+    --gs-tertiary-container: #194b44;
+    --gs-on-tertiary-container: #c6ece7;
+  }
+}
+
+:root[data-theme="dark"] .quiz-theme--5 {
+  --gs-primary: #de937c;
+  --gs-on-primary: #301209;
+  --gs-primary-container: #461a0d;
+  --gs-on-primary-container: #eeb5a4;
+  --gs-secondary: #7bd3c7;
+  --gs-on-secondary: #11342f;
+  --gs-secondary-container: #184943;
+  --gs-on-secondary-container: #c6ece7;
+  --gs-secondary-fixed: #c6ece7;
+  --gs-secondary-fixed-dim: #7bd3c7;
+  --gs-tertiary-container: #194b44;
+  --gs-on-tertiary-container: #c6ece7;
+}
+
+/* 6: Moss Olive */
+.quiz-theme--6 {
+  --gs-primary: #3e541c;
+  --gs-on-primary: #ffffff;
+  --gs-primary-container: #5e802b;
+  --gs-on-primary-container: #e6fac6;
+  --gs-secondary: #78360a;
+  --gs-on-secondary: #ffffff;
+  --gs-secondary-container: #f08640;
+  --gs-on-secondary-container: #652d08;
+  --gs-secondary-fixed: #f9d3b9;
+  --gs-secondary-fixed-dim: #f2985c;
+  --gs-tertiary-container: #90532a;
+  --gs-on-tertiary-container: #fceade;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .quiz-theme--6 {
+    --gs-primary: #b6d685;
+    --gs-on-primary: #1f2b0e;
+    --gs-primary-container: #2e3e15;
+    --gs-on-primary-container: #cee4ae;
+    --gs-secondary: #f2985c;
+    --gs-on-secondary: #401d05;
+    --gs-secondary-container: #5b2907;
+    --gs-on-secondary-container: #f9d3b9;
+    --gs-secondary-fixed: #f9d3b9;
+    --gs-secondary-fixed-dim: #f2985c;
+    --gs-tertiary-container: #502c14;
+    --gs-on-tertiary-container: #f9d3b9;
+  }
+}
+
+:root[data-theme="dark"] .quiz-theme--6 {
+  --gs-primary: #b6d685;
+  --gs-on-primary: #1f2b0e;
+  --gs-primary-container: #2e3e15;
+  --gs-on-primary-container: #cee4ae;
+  --gs-secondary: #f2985c;
+  --gs-on-secondary: #401d05;
+  --gs-secondary-container: #5b2907;
+  --gs-on-secondary-container: #f9d3b9;
+  --gs-secondary-fixed: #f9d3b9;
+  --gs-secondary-fixed-dim: #f2985c;
+  --gs-tertiary-container: #502c14;
+  --gs-on-tertiary-container: #f9d3b9;
+}
+
+/* 7: Violet Dusk */
+.quiz-theme--7 {
+  --gs-primary: #311d53;
+  --gs-on-primary: #ffffff;
+  --gs-primary-container: #4a2c7e;
+  --gs-on-primary-container: #d9c6fa;
+  --gs-secondary: #7f5603;
+  --gs-on-secondary: #ffffff;
+  --gs-secondary-container: #fab936;
+  --gs-on-secondary-container: #6a4803;
+  --gs-secondary-fixed: #fde5b5;
+  --gs-secondary-fixed-dim: #fbc353;
+  --gs-tertiary-container: #906e2a;
+  --gs-on-tertiary-container: #fcf2de;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .quiz-theme--7 {
+    --gs-primary: #a386d5;
+    --gs-on-primary: #190f2a;
+    --gs-primary-container: #24163e;
+    --gs-on-primary-container: #c2afe3;
+    --gs-secondary: #fbc353;
+    --gs-on-secondary: #432d02;
+    --gs-secondary-container: #5f4002;
+    --gs-on-secondary-container: #fde5b5;
+    --gs-secondary-fixed: #fde5b5;
+    --gs-secondary-fixed-dim: #fbc353;
+    --gs-tertiary-container: #503c14;
+    --gs-on-tertiary-container: #fde5b5;
+  }
+}
+
+:root[data-theme="dark"] .quiz-theme--7 {
+  --gs-primary: #a386d5;
+  --gs-on-primary: #190f2a;
+  --gs-primary-container: #24163e;
+  --gs-on-primary-container: #c2afe3;
+  --gs-secondary: #fbc353;
+  --gs-on-secondary: #432d02;
+  --gs-secondary-container: #5f4002;
+  --gs-on-secondary-container: #fde5b5;
+  --gs-secondary-fixed: #fde5b5;
+  --gs-secondary-fixed-dim: #fbc353;
+  --gs-tertiary-container: #503c14;
+  --gs-on-tertiary-container: #fde5b5;
+}
+
+/* 8: Coral Rose */
+.quiz-theme--8 {
+  --gs-primary: #591820;
+  --gs-on-primary: #ffffff;
+  --gs-primary-container: #842633;
+  --gs-on-primary-container: #fac6cd;
+  --gs-secondary: #7d5905;
+  --gs-on-secondary: #ffffff;
+  --gs-secondary-container: #f7be39;
+  --gs-on-secondary-container: #694b04;
+  --gs-secondary-fixed: #fce7b6;
+  --gs-secondary-fixed-dim: #f8c756;
+  --gs-tertiary-container: #90722a;
+  --gs-on-tertiary-container: #fcf3de;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .quiz-theme--8 {
+    --gs-primary: #dd7e8b;
+    --gs-on-primary: #2d0c10;
+    --gs-primary-container: #421118;
+    --gs-on-primary-container: #e8aab2;
+    --gs-secondary: #f8c756;
+    --gs-on-secondary: #422f03;
+    --gs-secondary-container: #5e4304;
+    --gs-on-secondary-container: #fce7b6;
+    --gs-secondary-fixed: #fce7b6;
+    --gs-secondary-fixed-dim: #f8c756;
+    --gs-tertiary-container: #503e14;
+    --gs-on-tertiary-container: #fce7b6;
+  }
+}
+
+:root[data-theme="dark"] .quiz-theme--8 {
+  --gs-primary: #dd7e8b;
+  --gs-on-primary: #2d0c10;
+  --gs-primary-container: #421118;
+  --gs-on-primary-container: #e8aab2;
+  --gs-secondary: #f8c756;
+  --gs-on-secondary: #422f03;
+  --gs-secondary-container: #5e4304;
+  --gs-on-secondary-container: #fce7b6;
+  --gs-secondary-fixed: #fce7b6;
+  --gs-secondary-fixed-dim: #f8c756;
+  --gs-tertiary-container: #503e14;
+  --gs-on-tertiary-container: #fce7b6;
+}
+
+/* 9: Bronze Copper */
+.quiz-theme--9 {
+  --gs-primary: #5b3315;
+  --gs-on-primary: #ffffff;
+  --gs-primary-container: #844f26;
+  --gs-on-primary-container: #faddc6;
+  --gs-secondary: #23575f;
+  --gs-on-secondary: #ffffff;
+  --gs-secondary-container: #69bbc7;
+  --gs-on-secondary-container: #1d4950;
+  --gs-secondary-fixed: #c8e6ea;
+  --gs-secondary-fixed-dim: #7fc5cf;
+  --gs-tertiary-container: #327c88;
+  --gs-on-tertiary-container: #def8fc;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .quiz-theme--9 {
+    --gs-primary: #dea77c;
+    --gs-on-primary: #2e1a0b;
+    --gs-primary-container: #432610;
+    --gs-on-primary-container: #eac4a7;
+    --gs-secondary: #7fc5cf;
+    --gs-on-secondary: #132e32;
+    --gs-secondary-container: #1a4147;
+    --gs-on-secondary-container: #c8e6ea;
+    --gs-secondary-fixed: #c8e6ea;
+    --gs-secondary-fixed-dim: #7fc5cf;
+    --gs-tertiary-container: #1b4349;
+    --gs-on-tertiary-container: #c8e6ea;
+  }
+}
+
+:root[data-theme="dark"] .quiz-theme--9 {
+  --gs-primary: #dea77c;
+  --gs-on-primary: #2e1a0b;
+  --gs-primary-container: #432610;
+  --gs-on-primary-container: #eac4a7;
+  --gs-secondary: #7fc5cf;
+  --gs-on-secondary: #132e32;
+  --gs-secondary-container: #1a4147;
+  --gs-on-secondary-container: #c8e6ea;
+  --gs-secondary-fixed: #c8e6ea;
+  --gs-secondary-fixed-dim: #7fc5cf;
+  --gs-tertiary-container: #1b4349;
+  --gs-on-tertiary-container: #c8e6ea;
+}
+
+/* 10: Deep Iris */
+.quiz-theme--10 {
+  --gs-primary: #361b55;
+  --gs-on-primary: #ffffff;
+  --gs-primary-container: #522982;
+  --gs-on-primary-container: #dfc6fa;
+  --gs-secondary: #7a2e08;
+  --gs-on-secondary: #ffffff;
+  --gs-secondary-container: #f37a3d;
+  --gs-on-secondary-container: #672707;
+  --gs-secondary-fixed: #faceb8;
+  --gs-secondary-fixed-dim: #f48d5a;
+  --gs-tertiary-container: #904c2a;
+  --gs-on-tertiary-container: #fce8de;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .quiz-theme--10 {
+    --gs-primary: #ab83d8;
+    --gs-on-primary: #1c0e2b;
+    --gs-primary-container: #28143f;
+    --gs-on-primary-container: #c7ade5;
+    --gs-secondary: #f48d5a;
+    --gs-on-secondary: #411804;
+    --gs-secondary-container: #5c2306;
+    --gs-on-secondary-container: #faceb8;
+    --gs-secondary-fixed: #faceb8;
+    --gs-secondary-fixed-dim: #f48d5a;
+    --gs-tertiary-container: #502814;
+    --gs-on-tertiary-container: #faceb8;
+  }
+}
+
+:root[data-theme="dark"] .quiz-theme--10 {
+  --gs-primary: #ab83d8;
+  --gs-on-primary: #1c0e2b;
+  --gs-primary-container: #28143f;
+  --gs-on-primary-container: #c7ade5;
+  --gs-secondary: #f48d5a;
+  --gs-on-secondary: #411804;
+  --gs-secondary-container: #5c2306;
+  --gs-on-secondary-container: #faceb8;
+  --gs-secondary-fixed: #faceb8;
+  --gs-secondary-fixed-dim: #f48d5a;
+  --gs-tertiary-container: #502814;
+  --gs-on-tertiary-container: #faceb8;
+}
+
+/* 11: Sea Glass */
+.quiz-theme--11 {
+  --gs-primary: #1e5242;
+  --gs-on-primary: #ffffff;
+  --gs-primary-container: #2e7d65;
+  --gs-on-primary-container: #c6faeb;
+  --gs-secondary: #651d37;
+  --gs-on-secondary: #ffffff;
+  --gs-secondary-container: #d15f89;
+  --gs-on-secondary-container: #55192f;
+  --gs-secondary-fixed: #eec4d3;
+  --gs-secondary-fixed-dim: #d7779a;
+  --gs-tertiary-container: #902a4f;
+  --gs-on-tertiary-container: #fcdee9;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .quiz-theme--11 {
+    --gs-primary: #88d3bc;
+    --gs-on-primary: #0f2a22;
+    --gs-primary-container: #163d31;
+    --gs-on-primary-container: #b0e2d3;
+    --gs-secondary: #d7779a;
+    --gs-on-secondary: #350f1d;
+    --gs-secondary-container: #4c162a;
+    --gs-on-secondary-container: #eec4d3;
+    --gs-secondary-fixed: #eec4d3;
+    --gs-secondary-fixed-dim: #d7779a;
+    --gs-tertiary-container: #4d162b;
+    --gs-on-tertiary-container: #eec4d3;
+  }
+}
+
+:root[data-theme="dark"] .quiz-theme--11 {
+  --gs-primary: #88d3bc;
+  --gs-on-primary: #0f2a22;
+  --gs-primary-container: #163d31;
+  --gs-on-primary-container: #b0e2d3;
+  --gs-secondary: #d7779a;
+  --gs-on-secondary: #350f1d;
+  --gs-secondary-container: #4c162a;
+  --gs-on-secondary-container: #eec4d3;
+  --gs-secondary-fixed: #eec4d3;
+  --gs-secondary-fixed-dim: #d7779a;
+  --gs-tertiary-container: #4d162b;
+  --gs-on-tertiary-container: #eec4d3;
+}
+
