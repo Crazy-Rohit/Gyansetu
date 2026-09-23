@@ -9,6 +9,7 @@ import {
   getContentByChapter,
 } from "../data/coursesData";
 import { getYouTubeId } from "../utils/youtube";
+import { withBase } from "../utils/publicPath";
 import Reveal from "../components/Reveal";
 import TiltCard from "../components/TiltCard";
 
@@ -181,7 +182,7 @@ function ContentLinks({ item }) {
         </a>
       )}
       {item.fileUrl && (
-        <a href={item.fileUrl} target="_blank" rel="noreferrer" className="content-link">
+        <a href={withBase(item.fileUrl)} target="_blank" rel="noreferrer" className="content-link">
           Open File
         </a>
       )}

@@ -1,0 +1,93 @@
+/* src/components/funFactsFloater.css */
+
+.fun-facts-floater__button {
+  position: fixed;
+  width: 60px;
+  height: 60px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: conic-gradient(
+    from 180deg,
+    var(--gs-primary),
+    var(--gs-tertiary),
+    var(--gs-secondary),
+    var(--gs-primary)
+  );
+  color: var(--gs-on-primary);
+  box-shadow: 0 6px 22px color-mix(in srgb, var(--gs-primary) 45%, transparent), var(--gs-shadow-2);
+  cursor: grab;
+  z-index: 41;
+  touch-action: none;
+  animation: fun-facts-float-bob 3.4s ease-in-out infinite;
+}
+
+.fun-facts-floater__button:active,
+.fun-facts-floater__button.is-dragging {
+  cursor: grabbing;
+}
+
+.fun-facts-floater__button.is-dragging {
+  animation: none;
+}
+
+.fun-facts-floater__button.is-splashing {
+  animation: fun-facts-splash-pop 0.38s ease-out;
+}
+
+@keyframes fun-facts-float-bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes fun-facts-splash-pop {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.35); }
+  100% { transform: scale(0.9); }
+}
+
+.fun-facts-floater__sparkle {
+  font-size: 26px;
+  animation: fun-facts-sparkle-pulse 2.2s ease-in-out infinite;
+}
+
+@keyframes fun-facts-sparkle-pulse {
+  0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.9; }
+  50% { transform: scale(1.15) rotate(12deg); opacity: 1; }
+}
+
+/* The magic "splash" — an expanding, fading glow ring fired on click,
+   right before the button sends you to the Fun Facts page. */
+.fun-facts-floater__burst {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--gs-primary) 75%, transparent) 0%,
+    color-mix(in srgb, var(--gs-tertiary) 45%, transparent) 55%,
+    transparent 75%
+  );
+}
+
+.fun-facts-floater__button.is-splashing .fun-facts-floater__burst {
+  animation: fun-facts-burst 0.5s ease-out;
+}
+
+@keyframes fun-facts-burst {
+  0% { transform: scale(0.6); opacity: 0.9; }
+  100% { transform: scale(3.2); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fun-facts-floater__button,
+  .fun-facts-floater__sparkle,
+  .fun-facts-floater__burst {
+    animation: none;
+  }
+}

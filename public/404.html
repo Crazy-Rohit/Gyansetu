@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Gyan Setu</title>
+    <script type="text/javascript">
+      // Single Page Apps for GitHub Pages: GitHub Pages has no server-side
+      // rewrites, so a direct load or refresh on a deep link (e.g.
+      // /Gyansetu/courses/class-9) 404s here. This encodes that path into a
+      // query string and redirects to index.html, which decodes it back
+      // (see the inline script in index.html) so React Router still sees a
+      // clean URL. https://github.com/rafgraph/spa-github-pages
+      var pathSegmentsToKeep = 1; // "/Gyansetu" — the GitHub Pages repo subpath
+
+      var l = window.location;
+      l.replace(
+        l.protocol +
+          "//" +
+          l.hostname +
+          (l.port ? ":" + l.port : "") +
+          l.pathname.split("/").slice(0, 1 + pathSegmentsToKeep).join("/") +
+          "/?/" +
+          l.pathname.slice(1).split("/").slice(pathSegmentsToKeep).join("/").replace(/&/g, "~and~") +
+          (l.search ? "&" + l.search.slice(1).replace(/&/g, "~and~") : "") +
+          l.hash
+      );
+    </script>
+  </head>
+  <body></body>
+</html>

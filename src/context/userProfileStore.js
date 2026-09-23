@@ -7,7 +7,18 @@ import { createContext } from "react";
 
 export const STORAGE_KEY = "gs_user_profile";
 
-export const AVATARS = ["🦁", "🐱", "🐶", "🦊", "🐼", "🐧", "🦉", "🐢"];
+// Each avatar is a "spirit animal" with a trait shown in a hover tooltip —
+// picking one is meant to feel like picking a personality, not just a face.
+export const AVATARS = [
+  { emoji: "🦁", name: "Lion", trait: "Bold and courageous — leads from the front." },
+  { emoji: "🐯", name: "Tiger", trait: "Fierce focus — locks onto the goal and doesn't blink." },
+  { emoji: "🐆", name: "Leopard", trait: "Quick and adaptable — strikes at the right moment." },
+  { emoji: "🐺", name: "Wolf", trait: "Loyal team player — stronger together than alone." },
+  { emoji: "🦉", name: "Owl", trait: "Wise and observant — thinks before it acts." },
+  { emoji: "🦅", name: "Eagle", trait: "Sharp-eyed and ambitious — always aiming higher." },
+  { emoji: "🦊", name: "Fox", trait: "Clever and resourceful — always finds a way." },
+  { emoji: "🐻", name: "Bear", trait: "Calm but powerful — steady under pressure." },
+];
 
 // What content the student sees on Courses/search. "both" is the default —
 // picking a specific class narrows the site down for them, it never locks

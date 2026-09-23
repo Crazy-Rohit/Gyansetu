@@ -4,6 +4,7 @@ import Header from './Header';
 import Footer from './Footer';
 import WelcomeModal from '../WelcomeModal';
 import ChatBot from '../ChatBot/ChatBot';
+import FunFactsFloater from '../FunFactsFloater';
 
 export default function MainLayout({ children }) {
   const location = useLocation();
@@ -30,6 +31,7 @@ export default function MainLayout({ children }) {
       <Footer />
       <WelcomeModal />
       <ChatBot />
+      <FunFactsFloater />
     </>
   );
 }

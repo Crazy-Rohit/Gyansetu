@@ -10,6 +10,8 @@ import HomePage from "../pages/HomePage";
 
 // Everything else is code-split, so the initial download only carries what the
 // first screen actually needs.
+const FunFactsPage = lazy(() => import("../pages/FunFactsPage"));
+const FunFactsSlidesPage = lazy(() => import("../pages/FunFactsSlidesPage"));
 const CoursesPage = lazy(() => import("../pages/CoursesPage"));
 const CourseSubjectsPage = lazy(() => import("../pages/CourseSubjectsPage"));
 const CourseChaptersPage = lazy(() => import("../pages/CourseChaptersPage"));
@@ -33,11 +35,13 @@ function RouteFallback() {
 
 export default function AppRouter() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={import.meta.env.BASE_URL}>
       <MainLayout>
         <Suspense fallback={<RouteFallback />}>
           <Routes>
             <Route path="/" element={<HomePage />} />
+            <Route path="/fun-facts" element={<FunFactsPage />} />
+            <Route path="/fun-facts/:week" element={<FunFactsSlidesPage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/contact" element={<ContactPage />} />
 

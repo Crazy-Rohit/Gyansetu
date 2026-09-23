@@ -7,7 +7,7 @@ import "../styles/profile.css";
 export default function WelcomeModal() {
   const { profile, isModalOpen, saveProfile, closeModal } = useUserProfile();
   const [name, setName] = useState(profile?.name || "");
-  const [avatar, setAvatar] = useState(profile?.avatar || AVATARS[0]);
+  const [avatar, setAvatar] = useState(profile?.avatar || AVATARS[0].emoji);
   const [classPref, setClassPref] = useState(profile?.classPref || DEFAULT_CLASS_PREF);
 
   if (!isModalOpen) return null;
@@ -34,16 +34,18 @@ export default function WelcomeModal() {
           </button>
         )}
 
-        <h2 className="profile-modal__title">
-          {isFirstTime ? "Welcome to Gyan Setu! 👋" : "Edit your profile"}
-        </h2>
-        <p className="profile-modal__subtitle">
-          {isFirstTime
-            ? "Tell us your name and pick an avatar to get started."
-            : "Update your name, avatar or class below."}
-        </p>
+        <div className="profile-modal__header">
+          <h2 className="profile-modal__title">
+            {isFirstTime ? "Welcome to Gyan Setu! 👋" : "Edit your profile"}
+          </h2>
+          <p className="profile-modal__subtitle">
+            {isFirstTime
+              ? "Tell us your name and pick an avatar to get started."
+              : "Update your name, avatar or class below."}
+          </p>
+        </div>
 
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="profile-modal__body">
           <label className="profile-modal__label" htmlFor="profile-name">
             Your name
           </label>
@@ -61,19 +63,24 @@ export default function WelcomeModal() {
 
           <span className="profile-modal__label">Pick an avatar</span>
           <div className="profile-modal__avatars">
-            {AVATARS.map((emoji) => (
-              <button
-                type="button"
-                key={emoji}
-                className={`profile-modal__avatar ${
-                  avatar === emoji ? "profile-modal__avatar--selected" : ""
-                }`}
-                onClick={() => setAvatar(emoji)}
-                aria-label={`Avatar ${emoji}`}
-                aria-pressed={avatar === emoji}
-              >
-                {emoji}
-              </button>
+            {AVATARS.map((a) => (
+              <div className="profile-modal__avatar-wrap" key={a.emoji}>
+                <button
+                  type="button"
+                  className={`profile-modal__avatar ${
+                    avatar === a.emoji ? "profile-modal__avatar--selected" : ""
+                  }`}
+                  onClick={() => setAvatar(a.emoji)}
+                  aria-label={`${a.name} avatar — ${a.trait}`}
+                  aria-pressed={avatar === a.emoji}
+                >
+                  {a.emoji}
+                </button>
+                <span className="profile-modal__avatar-tooltip" role="tooltip">
+                  <strong>{a.name}</strong>
+                  <span>{a.trait}</span>
+                </span>
+              </div>
             ))}
           </div>
 

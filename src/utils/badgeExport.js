@@ -3,6 +3,8 @@
 // extra; GIF and MP4 each dynamically import their (heavier) encoder only
 // when actually used, so viewing/quiz pages never pay for these libraries.
 
+import { withBase } from "./publicPath";
+
 const FRAME_COUNT = 24; // one full rotation, captured deterministically
 
 export function downloadBlob(blob, filename) {
@@ -71,7 +73,7 @@ export async function encodeGif(frames, { delayMs = 80 } = {}) {
     const gif = new GIF({
       workers: 2,
       quality: 8,
-      workerScript: "/vendor/gif.worker.js",
+      workerScript: withBase("/vendor/gif.worker.js"),
       width: frames[0].width,
       height: frames[0].height,
       transparent: 0x000000,

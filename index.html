@@ -18,6 +18,25 @@
     <link rel="preload" as="image" href="/brand/gyansetu-logo.webp" />
     <title>Gyan Setu</title>
 
+    <script type="text/javascript">
+      // Single Page Apps for GitHub Pages: decodes the redirect that
+      // public/404.html encoded, restoring the real URL (e.g.
+      // /Gyansetu/courses/class-9) before React Router ever reads it.
+      // https://github.com/rafgraph/spa-github-pages
+      (function (l) {
+        if (l.search[1] === "/") {
+          var decoded = l.search
+            .slice(1)
+            .split("&")
+            .map(function (s) {
+              return s.replace(/~and~/g, "&");
+            })
+            .join("?");
+          window.history.replaceState(null, null, l.pathname.slice(0, -1) + decoded + l.hash);
+        }
+      })(window.location);
+    </script>
+
     <!--
       Splash screen — inlined so it paints before any JS module loads (no
       flash of blank white). Colors are hardcoded rather than pulled from

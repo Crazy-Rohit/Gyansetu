@@ -1,0 +1,406 @@
+/* src/styles/funFacts.css */
+
+.fun-facts-slides-page .courses-subtitle {
+  margin-bottom: 1.5rem;
+}
+
+/* ===========================
+   Slide viewer (PowerPoint-style: thumbnail rail + big stage)
+   =========================== */
+
+.fun-facts-viewer {
+  display: flex;
+  align-items: stretch;
+  gap: 1.5rem;
+  min-height: 560px;
+}
+
+.fun-facts-viewer__rail {
+  flex: 0 0 230px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  overflow-y: auto;
+  padding: 0.75rem;
+  background: var(--gs-surface-container-low);
+  border: 1px solid var(--gs-outline-variant);
+  border-radius: var(--gs-radius-lg);
+  scrollbar-width: thin;
+  scrollbar-color: var(--gs-outline-variant) transparent;
+}
+
+.fun-facts-viewer__rail::-webkit-scrollbar {
+  width: 5px;
+}
+
+.fun-facts-viewer__rail::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.fun-facts-viewer__rail::-webkit-scrollbar-thumb {
+  background: var(--gs-outline-variant);
+  border-radius: var(--gs-radius-full);
+}
+
+.fun-facts-viewer__thumb {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.55rem 0.65rem;
+  border: 1.5px solid transparent;
+  border-radius: var(--gs-radius-md);
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.fun-facts-viewer__thumb:hover {
+  transform: translateX(2px);
+}
+
+/* Two alternating, theme-matched tones so consecutive slides read as
+   visually distinct in the rail, same as the big stage view. */
+.fun-facts-viewer__thumb--a {
+  background: color-mix(in srgb, var(--gs-primary-container) 22%, var(--gs-surface-container-lowest));
+}
+
+.fun-facts-viewer__thumb--b {
+  background: color-mix(in srgb, var(--gs-tertiary-container) 22%, var(--gs-surface-container-lowest));
+}
+
+.fun-facts-viewer__thumb.is-active {
+  border-color: var(--gs-primary);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--gs-primary) 30%, transparent);
+}
+
+.fun-facts-viewer__thumb-number {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--gs-surface-container-lowest);
+  color: var(--gs-on-surface-variant);
+  font-size: 0.68rem;
+  font-weight: 700;
+}
+
+.fun-facts-viewer__thumb-icon {
+  flex-shrink: 0;
+  display: inline-flex;
+  color: var(--gs-primary);
+}
+
+.fun-facts-viewer__thumb-icon svg {
+  width: 16px;
+  height: 16px;
+}
+
+.fun-facts-viewer__thumb-label {
+  flex: 1;
+  min-width: 0;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--gs-on-surface);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.fun-facts-viewer__stage {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.fun-facts-viewer__arrow {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--gs-outline-variant);
+  background: var(--gs-surface-container-lowest);
+  color: var(--gs-primary);
+  cursor: pointer;
+  box-shadow: var(--gs-shadow-1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.fun-facts-viewer__arrow:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--gs-shadow-2);
+  border-color: var(--gs-primary-container);
+}
+
+.fun-facts-viewer__slide-wrap {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* The "magic" main slide: a soft neon glow plus a slow, continuous float —
+   it's meant to feel alive, not just be a static card. Its content reads
+   top-to-bottom like a formal document (header, divider, body, footer)
+   rather than one small block floating in the middle of empty space. */
+.fun-facts-viewer__slide {
+  position: relative;
+  width: 100%;
+  min-height: 480px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  text-align: left;
+  padding: 2.25rem 2.5rem 1.75rem;
+  border-radius: var(--gs-radius-xl);
+  border: 1.5px solid var(--gs-primary);
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--gs-primary) 55%, transparent),
+    0 0 26px 6px color-mix(in srgb, var(--gs-primary) 45%, transparent),
+    0 0 60px 16px color-mix(in srgb, var(--gs-primary) 20%, transparent),
+    var(--gs-shadow-3);
+  animation: fun-facts-slide-float 4.2s ease-in-out infinite;
+}
+
+.fun-facts-viewer__slide-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.1rem;
+}
+
+.fun-facts-viewer__slide-eyebrow {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--gs-primary);
+  margin-bottom: 0.25rem;
+}
+
+.fun-facts-viewer__slide-divider {
+  height: 1px;
+  background: linear-gradient(to right, var(--gs-outline-variant), transparent);
+  margin-bottom: 1.5rem;
+}
+
+.fun-facts-viewer__slide-footer {
+  margin-top: auto;
+  padding-top: 1.1rem;
+  border-top: 1px dashed var(--gs-outline-variant);
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--gs-on-surface-variant);
+}
+
+.fun-facts-viewer__slide--a {
+  background: color-mix(in srgb, var(--gs-primary-container) 30%, var(--gs-surface-container-low));
+}
+
+.fun-facts-viewer__slide--b {
+  background: color-mix(in srgb, var(--gs-tertiary-container) 30%, var(--gs-surface-container-low));
+}
+
+@keyframes fun-facts-slide-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.fun-facts-viewer__sparkle {
+  position: absolute;
+  top: 1rem;
+  right: 1.25rem;
+  font-size: 22px;
+  color: var(--gs-primary);
+  animation: fun-facts-sparkle-pulse 2.2s ease-in-out infinite;
+}
+
+@keyframes fun-facts-sparkle-pulse {
+  0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.85; }
+  50% { transform: scale(1.18) rotate(14deg); opacity: 1; }
+}
+
+.fun-facts-viewer__status {
+  margin-top: 0.9rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--gs-on-surface-variant);
+}
+
+/* ===========================
+   Card content (the fact rendered inside the big slide)
+   =========================== */
+
+.fun-fact-card__icon {
+  width: 52px;
+  height: 52px;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  color: var(--gs-on-primary-container);
+  background: var(--gs-primary-container);
+}
+
+.fun-fact-card__icon svg {
+  width: 26px;
+  height: 26px;
+}
+
+.fun-fact-card__breadcrumb {
+  font-family: var(--gs-font-heading);
+  font-size: 1.45rem;
+  font-weight: 800;
+  line-height: 1.25;
+  color: var(--gs-on-surface);
+  margin: 0;
+}
+
+.fun-fact-card__body {
+  max-width: 640px;
+  color: var(--gs-on-surface);
+}
+
+/* Bold/italic inline markup gets its own accent colors so the text doesn't
+   read as one flat block — bold picks out the key term, italics an aside. */
+.fun-fact-card__body strong {
+  color: var(--gs-primary);
+  font-weight: 700;
+}
+
+.fun-fact-card__body em {
+  color: var(--gs-tertiary);
+  font-style: italic;
+  font-weight: 600;
+}
+
+.fun-fact-card__paragraph {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  margin: 0 0 0.85rem;
+}
+
+.fun-fact-card__paragraph:last-child {
+  margin-bottom: 0;
+}
+
+.fun-fact-card__list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 0.85rem;
+  display: inline-flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  text-align: left;
+}
+
+.fun-fact-card__list:last-child {
+  margin-bottom: 0;
+}
+
+.fun-fact-card__list li {
+  font-size: 1rem;
+  line-height: 1.5;
+  padding-left: 1.2rem;
+  position: relative;
+}
+
+.fun-fact-card__list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--gs-primary-container);
+}
+
+/* ===========================
+   Responsive
+   =========================== */
+
+@media (max-width: 900px) {
+  .fun-facts-viewer {
+    flex-direction: column;
+    min-height: 0;
+  }
+
+  .fun-facts-viewer__rail {
+    flex: none;
+    flex-direction: row;
+    max-height: none;
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+
+  .fun-facts-viewer__thumb {
+    flex-shrink: 0;
+    width: auto;
+  }
+
+  .fun-facts-viewer__thumb-label {
+    max-width: 120px;
+  }
+
+  .fun-facts-viewer__slide {
+    min-height: 380px;
+    padding: 1.75rem 1.5rem 1.5rem;
+  }
+
+  .fun-fact-card__breadcrumb {
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .fun-facts-viewer__stage {
+    gap: 0.4rem;
+  }
+
+  .fun-facts-viewer__arrow {
+    width: 36px;
+    height: 36px;
+  }
+
+  .fun-facts-viewer__slide {
+    min-height: 340px;
+    padding: 1.25rem 1.1rem 1.1rem;
+  }
+
+  .fun-fact-card__icon {
+    width: 42px;
+    height: 42px;
+  }
+
+  .fun-fact-card__icon svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .fun-fact-card__breadcrumb {
+    font-size: 1.05rem;
+  }
+
+  .fun-fact-card__body {
+    max-width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fun-facts-viewer__slide,
+  .fun-facts-viewer__sparkle {
+    animation: none;
+  }
+}
