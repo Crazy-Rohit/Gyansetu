@@ -91,6 +91,40 @@
   color: var(--gs-error);
 }
 
+.badge-modal__share {
+  margin-top: 1.5rem;
+  padding: 1rem 1.1rem;
+  background: var(--gs-surface-container-low);
+  border: 1px solid var(--gs-outline-variant);
+  border-radius: var(--gs-radius-lg);
+  text-align: left;
+}
+
+.badge-modal__share-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--gs-on-surface-variant);
+  margin-bottom: 0.5rem;
+}
+
+.badge-modal__share-text {
+  font-size: 0.88rem;
+  line-height: 1.5;
+  color: var(--gs-on-surface);
+  margin-bottom: 0.85rem;
+}
+
+.badge-modal__share-copy {
+  width: 100%;
+  font-size: 0.85rem;
+}
+
+.badge-modal__share-copy .material-symbols-outlined {
+  font-size: 18px;
+}
+
 @media (max-width: 420px) {
   .badge-modal__actions {
     grid-template-columns: repeat(2, 1fr);

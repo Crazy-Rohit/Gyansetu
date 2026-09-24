@@ -2,6 +2,7 @@
 import { useRef, useState } from "react";
 import Badge3D from "./Badge3D/Badge3D";
 import { useUserProfile } from "../hooks/useUserProfile";
+import { getShareMessage } from "../data/checkpoints";
 import {
   captureRotationFrames,
   captureStillCanvas,
@@ -27,9 +28,21 @@ export default function BadgeDownloadModal({ tone, icon, title, onClose }) {
   // Every export renders a fresh frame off the live scene, so there is nothing
   // to capture until the badge has finished building.
   const [ready, setReady] = useState(false);
+  const [copied, setCopied] = useState(false);
 
   const studentName = profile?.name || "Student";
   const baseFilename = `gyansetu-badge-${slugify(tone)}-${slugify(studentName)}`;
+  const shareMessage = getShareMessage(tone, title, studentName);
+
+  async function handleCopyMessage() {
+    try {
+      await navigator.clipboard.writeText(shareMessage);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      setError("Couldn't copy — select and copy the text manually.");
+    }
+  }
 
   async function handleStill(format) {
     if (!badgeRef.current || busy) return;
@@ -109,6 +122,17 @@ export default function BadgeDownloadModal({ tone, icon, title, onClose }) {
           </button>
           <button type="button" className="gs-btn quiz-btn-secondary" onClick={handleMp4} disabled={!ready || !!busy}>
             {busy === "mp4" ? "Encoding… (~10-20s)" : "MP4"}
+          </button>
+        </div>
+
+        <div className="badge-modal__share">
+          <p className="badge-modal__share-label">Post it with your badge</p>
+          <p className="badge-modal__share-text">{shareMessage}</p>
+          <button type="button" className="gs-btn gs-btn--ghost badge-modal__share-copy" onClick={handleCopyMessage}>
+            <span className="material-symbols-outlined">
+              {copied ? "check" : "content_copy"}
+            </span>
+            {copied ? "Copied!" : "Copy Message"}
           </button>
         </div>
 

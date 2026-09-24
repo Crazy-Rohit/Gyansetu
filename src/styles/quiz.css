@@ -156,29 +156,29 @@
    across the level map, the result medal, and badge cards.
    =========================== */
 
-.checkpoint-tone--sprout {
-  --tone-bg: var(--gs-primary-container);
-  --tone-fg: var(--gs-on-primary-container);
+.checkpoint-tone--olive {
+  --tone-bg: linear-gradient(135deg, #6b7a2f, #94a856);
+  --tone-fg: #f6fbe4;
 }
 
-.checkpoint-tone--clay {
-  --tone-bg: var(--gs-tertiary-container);
-  --tone-fg: var(--gs-on-tertiary-container);
+.checkpoint-tone--bronze {
+  --tone-bg: linear-gradient(135deg, #7a4a1e, #b06b34);
+  --tone-fg: #fff1de;
 }
 
-.checkpoint-tone--summit {
-  --tone-bg: var(--gs-secondary-container);
-  --tone-fg: var(--gs-on-secondary-container);
+.checkpoint-tone--silver {
+  --tone-bg: linear-gradient(135deg, #9aa0a6, #d9dde0);
+  --tone-fg: #2b2f33;
 }
 
-.checkpoint-tone--forest {
-  --tone-bg: var(--gs-primary);
-  --tone-fg: var(--gs-on-primary);
+.checkpoint-tone--gold {
+  --tone-bg: linear-gradient(135deg, #c98a00, #ffd23f);
+  --tone-fg: #3a2400;
 }
 
-.checkpoint-tone--champion {
-  --tone-bg: linear-gradient(135deg, var(--gs-secondary-fixed-dim), var(--gs-secondary-container));
-  --tone-fg: var(--gs-on-secondary-container);
+.checkpoint-tone--platinum {
+  --tone-bg: linear-gradient(135deg, #b9c1c6, #eef1f2);
+  --tone-fg: #2a3236;
 }
 
 /* ===========================

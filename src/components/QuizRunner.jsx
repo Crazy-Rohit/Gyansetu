@@ -309,7 +309,7 @@ function LevelMap({ quiz, progress, onStart }) {
 
               <button
                 type="button"
-                className={`quiz-map__node-btn checkpoint-tone--${checkpoint?.tone || "sprout"}
+                className={`quiz-map__node-btn checkpoint-tone--${checkpoint?.tone || "olive"}
                   ${passed ? "quiz-map__node-btn--passed" : ""}
                   ${isCurrent ? "quiz-map__node-btn--current" : ""}
                   ${!unlocked && isBoss ? "quiz-map__node-btn--boss" : ""}`}
@@ -522,7 +522,7 @@ function LevelResult({ level, result, isLastLevel, onRetry, onContinue, onBackTo
     <div className="quiz-result-card">
       <div
         className={`quiz-result-card__medal ${
-          result.passed ? `checkpoint-tone--${checkpoint?.tone || "champion"}` : ""
+          result.passed ? `checkpoint-tone--${checkpoint?.tone || "platinum"}` : ""
         }`}
       >
         <span className="material-symbols-outlined">

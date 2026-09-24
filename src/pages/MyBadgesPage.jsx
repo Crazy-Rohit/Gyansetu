@@ -152,7 +152,7 @@ export default function MyBadgesPage() {
                   return (
                     <div key={badge.badgeId} className="badge-card">
                       <span
-                        className={`badge-card__icon material-symbols-outlined checkpoint-tone--${checkpoint?.tone || "sprout"}`}
+                        className={`badge-card__icon material-symbols-outlined checkpoint-tone--${checkpoint?.tone || "olive"}`}
                       >
                         {checkpoint?.icon || "workspace_premium"}
                       </span>
@@ -192,7 +192,7 @@ export default function MyBadgesPage() {
                   return (
                     <div key={badge.badgeId} className="badge-card badge-card--challenge">
                       <span
-                        className={`badge-card__icon material-symbols-outlined checkpoint-tone--${checkpoint?.tone || "champion"}`}
+                        className={`badge-card__icon material-symbols-outlined checkpoint-tone--${checkpoint?.tone || "platinum"}`}
                       >
                         {checkpoint?.icon || "emoji_events"}
                       </span>

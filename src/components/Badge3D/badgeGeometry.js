@@ -4,7 +4,7 @@
 //
 // Design language — the "Gyan Setu challenge coin" series:
 //   * The silhouette carries the checkpoint identity: coin, keystone arch,
-//     crystal hexagon, compass octagon, champion sunburst. Never a hanging
+//     crystal hexagon, compass octagon, platinum sunburst. Never a hanging
 //     medal-on-a-ribbon.
 //   * The Gyan Setu logo sits dead centre on a raised pedestal, on both faces.
 //   * The checkpoint title curves along the top arc, the student's name along
@@ -14,52 +14,51 @@ import * as THREE from "three";
 import logoUrl from "../../assets/images/gyansetu-logo.webp";
 import { buildIconShapes } from "./badgeIcons";
 
-// Same hex values already backing the flat `checkpoint-tone--*` chips in
-// quiz.css (--gs-primary-container, --gs-tertiary-container, etc.), so the
-// 3D badge stays visually consistent with the rest of the site.
+// A real medal ladder — Olive (entry) → Bronze → Silver → Gold → Platinum
+// (mastery) — so the metal itself signals the rank, not just the shape.
 export const TONE_COLORS = {
-  sprout: {
-    base: 0x2e7d32, accent: 0xd8ffd0, rim: 0x1b5e20, relief: 0xa9f7a1,
-    logoBg: 0xf2fff0, metalness: 0.55, roughness: 0.45,
+  olive: {
+    base: 0x707d3a, accent: 0xeef2d6, rim: 0x4a5424, relief: 0xd6e2a8,
+    logoBg: 0xf6f9ec, metalness: 0.55, roughness: 0.42,
   },
-  clay: {
-    base: 0x8d662d, accent: 0xffeedc, rim: 0x5a3d0a, relief: 0xffd9a8,
-    logoBg: 0xfff6ec, metalness: 0.7, roughness: 0.35,
+  bronze: {
+    base: 0xa5672f, accent: 0xffe6c2, rim: 0x6b3f16, relief: 0xffcf94,
+    logoBg: 0xfff2df, metalness: 0.68, roughness: 0.35,
   },
-  summit: {
-    base: 0xffb231, accent: 0x3a2400, rim: 0xc98600, relief: 0xfff3d0,
-    logoBg: 0xfffaf0, metalness: 0.85, roughness: 0.22,
+  silver: {
+    base: 0xb9c0c4, accent: 0x2b2f33, rim: 0x7c8388, relief: 0xeef1f2,
+    logoBg: 0xfafbfb, metalness: 0.88, roughness: 0.22,
   },
-  forest: {
-    base: 0x0d631b, accent: 0xa3f69c, rim: 0x00390a, relief: 0xcbffc2,
-    logoBg: 0xf0fff0, metalness: 0.8, roughness: 0.25,
+  gold: {
+    base: 0xffc531, accent: 0x3a2400, rim: 0xb8860b, relief: 0xffe999,
+    logoBg: 0xfffae0, metalness: 0.88, roughness: 0.18,
   },
-  champion: {
-    base: 0xffc94d, accent: 0x3a2400, rim: 0xd99b00, relief: 0xfff6d8,
-    logoBg: 0xfffdf4, metalness: 0.9, roughness: 0.14, emissive: 0xffdd88,
+  platinum: {
+    base: 0xe4e6e6, accent: 0x2a3236, rim: 0xa9adae, relief: 0xf6f7f7,
+    logoBg: 0xffffff, metalness: 0.95, roughness: 0.12, emissive: 0xd8e6ff,
   },
 };
 
 // Silhouette size per tier, escalating so the rank reads at a glance. The
-// biggest half-extent (champion, ~1.42 with its bevel) stays inside the 1.50
+// biggest half-extent (platinum, ~1.44 with its bevel) stays inside the 1.50
 // that the camera in Badge3D.jsx frames.
 const TIER_SCALE = {
-  sprout: 1.06,
-  clay: 1.16,
-  summit: 1.22,
-  forest: 1.407,
-  champion: 1.36,
+  olive: 1.06,
+  bronze: 1.15,
+  silver: 1.22,
+  gold: 1.3,
+  platinum: 1.4,
 };
 
 // Medallion radius as a fraction of `radius`. Each shape's inradius — the
 // biggest circle that fits inside it — is noted below; the fit also has to
 // leave room for the raised rim ring, which sits at medallion * 1.03.
 const FACE_FIT = {
-  sprout: 0.85, // circle, inradius 1.000
-  clay: 0.79, // keystone arch, inradius 0.900
-  summit: 0.76, // hexagon, inradius 0.866
-  forest: 0.68, // octagon, inradius 0.924
-  champion: 0.74, // 12-point sunburst, inradius 0.820
+  olive: 0.85, // circle, inradius 1.000
+  bronze: 0.79, // keystone arch, inradius 0.900
+  silver: 0.76, // hexagon, inradius 0.866
+  gold: 0.68, // octagon, inradius 0.924
+  platinum: 0.74, // 12-point sunburst, inradius 0.820
 };
 
 // Thin, pin-like profile rather than a chunky puck.
@@ -353,11 +352,11 @@ function sunburstShape(radius, points = 12, innerRatio = 0.82) {
 }
 
 const SHAPE_BUILDERS = {
-  sprout: circleShape,
-  clay: archShape,
-  summit: hexagonShape,
-  forest: octagonShape,
-  champion: sunburstShape,
+  olive: circleShape,
+  bronze: archShape,
+  silver: hexagonShape,
+  gold: octagonShape,
+  platinum: sunburstShape,
 };
 
 /**
@@ -486,7 +485,7 @@ function buildFace({ colors, icon, medallionRadius, rimTube, medallionTexture, l
  * curved along the top of both faces and `studentName` along the bottom.
  */
 export async function buildBadgeGroup({ tone, icon, title, studentName }) {
-  const colors = TONE_COLORS[tone] || TONE_COLORS.sprout;
+  const colors = TONE_COLORS[tone] || TONE_COLORS.olive;
   const radius = TIER_SCALE[tone] || 1;
   const medallionRadius = radius * (FACE_FIT[tone] ?? 0.8);
 
